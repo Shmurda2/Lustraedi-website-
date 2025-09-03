@@ -48,26 +48,41 @@
         background-color: rgba(0, 0, 0, 0.8);
         backdrop-filter: blur(5px);
     }
-    
-    /* Variant Styles */
-    .variant-option {
-      border: 1px solid #333;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
+    /* Variant Selector Styles */
+    .variant-swatch {
+        cursor: pointer;
+        border: 2px solid #333;
+        transition: border-color 0.2s;
+        width: 40px;
+        height: 40px;
     }
-    .variant-option:hover {
-      border-color: #FFBF00;
+    .variant-swatch.selected {
+        border-color: #FFBF00;
+        box-shadow: 0 0 8px rgba(255, 191, 0, 0.5);
     }
-    .variant-option.selected {
-      border-color: #FFBF00;
-      background-color: rgba(255, 191, 0, 0.1);
+     /* Testimonial Scroller Styles */
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc(-384px * 7)); } /* Card width * number of cards */
     }
-    .variant-option.out-of-stock {
-      opacity: 0.5;
-      cursor: not-allowed;
-      text-decoration: line-through;
+    .scroller {
+      width: 100%;
+      overflow: hidden;
+      -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+      mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+    }
+    .scroller__inner {
+      display: flex;
+      gap: 1rem;
+      width: max-content;
+      animation: scroll 40s linear infinite;
+    }
+    .scroller:hover .scroller__inner {
+      animation-play-state: paused;
+    }
+    .testimonial-card {
+        width: 352px; /* w-88 */
+        flex-shrink: 0;
     }
   </style>
 </head>
@@ -75,7 +90,7 @@
 
   <header class="py-4 px-6 md:px-12 sticky top-0 z-50 border-b border-gray-800 bg-black/80 backdrop-blur-sm">
     <div class="container mx-auto flex justify-between items-center">
-      <a href="#" class="nav-link" data-page="home-page">
+      <a href="index.html" class="nav-link" data-page="home-page">
         <img src="https://raw.githubusercontent.com/Mide000/Lustraedi-files/main/images/logo.png.png" alt="LUSTRAEDI Logo" class="h-10">
       </a>
       <nav class="hidden md:flex space-x-8 text-gray-300 font-medium">
@@ -85,7 +100,7 @@
       </nav>
       <div class="flex items-center space-x-4">
         <button id="cart-icon" class="relative">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 hover:text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w.org/2000/svg" class="h-6 w-6 text-gray-300 hover:text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
           <span id="cart-item-count" class="absolute -top-2 -right-2 bg-brand-gold text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
@@ -120,40 +135,85 @@
             </div>
         </div>
       </section>
-
-      <section id="about" class="py-20 px-6 bg-gray-900">
-        <div class="container mx-auto grid md:grid-cols-2 gap-12 items-center">
-            <div>
-                <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">The <span class="brand-gold">LUSTRAEDI</span> Legacy</h2>
-                <p class="text-gray-300 mb-4">Founded on the principle of accessible luxury, LUSTRAEDI was born from a passion for horology and a desire to bring exceptional timepieces to the world. We believe a great watch does more than tell time—it tells a story.</p>
-                <p class="text-gray-300">Our journey is one of meticulous design, sourcing of premium materials, and a commitment to craftsmanship that stands the test of time. Each piece in our collection is a testament to this philosophy, built for those who appreciate the finer things in life.</p>
-            </div>
-            <div>
-                <img src="https://images.unsplash.com/photo-1594576722539-a7195973ae94?q=80&w=1887&auto=format&fit=crop" alt="Watchmaker crafting a watch" class="rounded-lg shadow-xl">
-            </div>
-        </div>
-      </section>
       
       <section id="reviews" class="py-20 px-6">
-        <div class="container mx-auto text-center">
-          <h3 class="font-serif text-3xl md:text-4xl font-bold mb-12">What Our Clients Say</h3>
-          <div class="grid md:grid-cols-3 gap-8">
-            <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
-                <div class="flex justify-center mb-3 text-yellow-400">★★★★★</div>
-                <p class="text-gray-300 mb-4">"The Apollo Chronograph is stunning. It looks and feels ten times its price. Fast delivery to Lagos!"</p>
-                <p class="font-bold">- Tunde, Lekki</p>
+        <div class="container mx-auto text-center mb-12">
+          <h3 class="font-serif text-3xl md:text-4xl font-bold">From Our Valued Clients</h3>
+        </div>
+        <div class="scroller" data-speed="slow">
+            <div class="scroller__inner">
+                <div class="testimonial-card bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                    <div class="flex mb-3 text-yellow-400">★★★★★</div>
+                    <p class="text-gray-300 mb-4">"The Apollo Chronograph is stunning. It looks and feels ten times its price. Fast delivery to Lagos!"</p>
+                    <p class="font-bold">- Tunde A., Lekki</p>
+                </div>
+                <div class="testimonial-card bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                    <div class="flex mb-3 text-yellow-400">★★★★★</div>
+                    <p class="text-gray-300 mb-4">"I bought the 'Aura' for my wife and she adores it. Elegant, classy, and beautifully made."</p>
+                    <p class="font-bold">- Emeka I., Abuja</p>
+                </div>
+                <div class="testimonial-card bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                    <div class="flex mb-3 text-yellow-400">★★★★★</div>
+                    <p class="text-gray-300 mb-4">"My Fusion smartwatch is a game-changer. The hidden earbuds are genius. Highly recommend LUSTRAEDI."</p>
+                    <p class="font-bold">- Bayo S., Ibadan</p>
+                </div>
+                <div class="testimonial-card bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                    <div class="flex mb-3 text-yellow-400">★★★★★</div>
+                    <p class="text-gray-300 mb-4">"Absolutely in love with my Titan watch. It's rugged, stylish, and gets compliments everywhere I go."</p>
+                    <p class="font-bold">- David O., Port Harcourt</p>
+                </div>
+                 <div class="testimonial-card bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                    <div class="flex mb-3 text-yellow-400">★★★★★</div>
+                    <p class="text-gray-300 mb-4">"The Celestial model is a work of art. The moon phase is a beautiful touch. Feels incredibly premium."</p>
+                    <p class="font-bold">- Fatima B., Kano</p>
+                </div>
+                <div class="testimonial-card bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                    <div class="flex mb-3 text-yellow-400">★★★★★</div>
+                    <p class="text-gray-300 mb-4">"I was skeptical about the Fusion smartwatch, but it's brilliant! The convenience is unmatched. Solid build quality."</p>
+                    <p class="font-bold">- Aisha M., Jos</p>
+                </div>
+                <div class="testimonial-card bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                    <div class="flex mb-3 text-yellow-400">★★★★★</div>
+                    <p class="text-gray-300 mb-4">"Ordered the Voyager as a gift for my husband. He hasn't taken it off since. Classic look, modern feel. 10/10."</p>
+                    <p class="font-bold">- Ngozi E., Enugu</p>
+                </div>
+
+                <div class="testimonial-card bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                    <div class="flex mb-3 text-yellow-400">★★★★★</div>
+                    <p class="text-gray-300 mb-4">"The Apollo Chronograph is stunning. It looks and feels ten times its price. Fast delivery to Lagos!"</p>
+                    <p class="font-bold">- Tunde A., Lekki</p>
+                </div>
+                <div class="testimonial-card bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                    <div class="flex mb-3 text-yellow-400">★★★★★</div>
+                    <p class="text-gray-300 mb-4">"I bought the 'Aura' for my wife and she adores it. Elegant, classy, and beautifully made."</p>
+                    <p class="font-bold">- Emeka I., Abuja</p>
+                </div>
+                <div class="testimonial-card bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                    <div class="flex mb-3 text-yellow-400">★★★★★</div>
+                    <p class="text-gray-300 mb-4">"My Fusion smartwatch is a game-changer. The hidden earbuds are genius. Highly recommend LUSTRAEDI."</p>
+                    <p class="font-bold">- Bayo S., Ibadan</p>
+                </div>
+                <div class="testimonial-card bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                    <div class="flex mb-3 text-yellow-400">★★★★★</div>
+                    <p class="text-gray-300 mb-4">"Absolutely in love with my Titan watch. It's rugged, stylish, and gets compliments everywhere I go."</p>
+                    <p class="font-bold">- David O., Port Harcourt</p>
+                </div>
+                 <div class="testimonial-card bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                    <div class="flex mb-3 text-yellow-400">★★★★★</div>
+                    <p class="text-gray-300 mb-4">"The Celestial model is a work of art. The moon phase is a beautiful touch. Feels incredibly premium."</p>
+                    <p class="font-bold">- Fatima B., Kano</p>
+                </div>
+                <div class="testimonial-card bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                    <div class="flex mb-3 text-yellow-400">★★★★★</div>
+                    <p class="text-gray-300 mb-4">"I was skeptical about the Fusion smartwatch, but it's brilliant! The convenience is unmatched. Solid build quality."</p>
+                    <p class="font-bold">- Aisha M., Jos</p>
+                </div>
+                <div class="testimonial-card bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                    <div class="flex mb-3 text-yellow-400">★★★★★</div>
+                    <p class="text-gray-300 mb-4">"Ordered the Voyager as a gift for my husband. He hasn't taken it off since. Classic look, modern feel. 10/10."</p>
+                    <p class="font-bold">- Ngozi E., Enugu</p>
+                </div>
             </div>
-            <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
-                <div class="flex justify-center mb-3 text-yellow-400">★★★★★</div>
-                <p class="text-gray-300 mb-4">"I bought the 'Aura' for my wife and she adores it. Elegant, classy, and beautifully made."</p>
-                <p class="font-bold">- Emeka, Abuja</p>
-            </div>
-            <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
-                <div class="flex justify-center mb-3 text-yellow-400">★★★★★</div>
-                <p class="text-gray-300 mb-4">"My Fusion smartwatch is a game-changer. The hidden earbuds are genius. Highly recommend LUSTRAEDI."</p>
-                <p class="font-bold">- Bayo, Ibadan</p>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -185,13 +245,12 @@
   <footer class="bg-black border-t border-gray-800 py-8 px-6">
     <div class="container mx-auto text-center text-gray-400">
       <img src="https://raw.githubusercontent.com/Mide000/Lustraedi-files/main/images/logo.png.png" class="h-12 mx-auto mb-4">
-      <p>For support, contact: <a href="mailto:support@lustraedi.com" class="underline">support@lustraedi.com</a></p>
-      <div class="text-sm mt-4 space-x-4">
-        <a href="#" class="hover:underline">Privacy Policy</a> | 
-        <a href="#" class="hover:underline">Refund Policy</a> | 
-        <a href="#" class="hover:underline">Terms & Conditions</a> |
-        <a href="#" class="hover:underline">Warranty</a> |
-        <a href="#" class="hover:underline">Size Guide</a>
+      <p>For support, contact: <a href="mailto:dan@lustraedi.store" class="underline">dan@lustraedi.store</a></p>
+      <div class="text-sm mt-4 space-x-2 md:space-x-4">
+        <a href="privacy policy.html" class="hover:underline">Privacy Policy</a> | 
+        <a href="refund policy.html" class="hover:underline">Refund Policy</a> | 
+        <a href="terms.html" class="hover:underline">Terms & Conditions</a> |
+        <a href="track order.html" class="hover:underline">Track Your Order</a>
       </div>
       <p class="text-sm mt-4">&copy; 2025 LUSTRAEDI. All Rights Reserved.</p>
     </div>
@@ -200,14 +259,14 @@
   <div id="cart-overlay" class="fixed top-0 right-0 h-full w-full md:w-96 bg-black z-50 shadow-2xl flex flex-col">
     <div class="flex justify-between items-center p-4 border-b border-gray-800">
       <h3 class="font-serif text-2xl brand-gold">Your Cart</h3>
-      <button id="close-cart-btn" class="text-gray-400 hover:text-white">&times;</button>
+      <button id="close-cart-btn" class="text-gray-400 hover:text-white text-3xl">&times;</button>
     </div>
     <div id="cart-items" class="flex-grow p-4 overflow-y-auto cart-scroll">
       </div>
     <div class="p-4 border-t border-gray-800 space-y-4">
       <div class="flex justify-between font-bold text-lg">
         <span>Subtotal</span>
-        <span id="cart-subtotal">$0.00</span>
+        <span id="cart-subtotal">₦0</span>
       </div>
       <button id="checkout-button" class="w-full cta-button bg-brand-gold text-black font-bold py-3 px-6 rounded-lg">
         Proceed to Checkout
@@ -220,7 +279,7 @@
             <button id="close-popup-btn" class="absolute top-2 right-4 text-2xl text-gray-500 hover:text-white">&times;</button>
             <h3 class="font-serif text-3xl brand-gold mb-2">Welcome!</h3>
             <p class="text-gray-300 mb-6">Join our exclusive list and get <span class="font-bold">10% OFF</span> your first order.</p>
-            <form class="space-y-4">
+            <form id="popup-form" class="space-y-4">
                 <input type="email" class="form-input" placeholder="Enter your email address" required>
                 <button type="submit" class="w-full cta-button bg-brand-gold text-black font-bold py-3 px-6 rounded-lg">Claim My Discount</button>
             </form>
@@ -238,158 +297,146 @@
           id: 1,
           name: 'LUSTRAEDI Fusion',
           tagline: '2-in-1 Smartwatch & Buds',
-          price: 179.99,
-          originalPrice: 259.99,
+          price: 100000,
+          originalPrice: 300000,
           images: [
-            'https://raw.githubusercontent.com/Mide000/Lustraedi-files/main/images/Screenshot_2025-08-25_121039-removebg-preview.png',
-            'https://raw.githubusercontent.com/Mide000/Lustraedi-files/main/images/Screenshot_2025-08-21_222133-removebg-preview.png',
-            'https://raw.githubusercontent.com/Mide000/Lustraedi-files/main/images/Screenshot_2025-08-21_193354-removebg-preview.png'
+            'https://ae-pic-a1.aliexpress-media.com/kf/Sfdf4840290ba4fbeba4731aa091750c27.jpg_960x960q75.jpg',
+            'https://ae-pic-a1.aliexpress-media.com/kf/S3926e1e02159460c9806a83e1301edb05.jpg_960x960q75.jpg',
+            'https://ae-pic-a1.aliexpress-media.com/kf/S54ab12ca819b402a85c67893cbfff0a7D.jpg_960x960q75.jpg'
           ],
           description: 'Experience the revolutionary 2-in-1 Smartwatch with premium Hi-Fi earbuds hidden inside. Seamlessly switch between tracking your fitness and immersing yourself in crystal-clear audio.',
           specs: { Material: 'Zinc Alloy + IML', 'Strap': 'Silicone', 'Water Resistance': 'IP67', 'Features': 'Heart Rate, Blood Oxygen, Hi-Fi Audio' },
-          variants: {
-            'Color': [
-              { name: 'Black', inStock: true, price: 179.99, images: ['https://raw.githubusercontent.com/Mide000/Lustraedi-files/main/images/Screenshot_2025-08-25_121039-removebg-preview.png'] },
-              { name: 'Silver', inStock: true, price: 179.99, images: ['https://img.kwcdn.com/product/fancy/8058230b-da76-48a7-ad00-26cc9590f2da.jpg'] }
-            ]
-          }
+          variants: [
+            { name: 'Standard', image: 'https://ae-pic-a1.aliexpress-media.com/kf/Sfdf4840290ba4fbeba4731aa091750c27.jpg_960x960q75.jpg' }
+          ]
         },
         {
           id: 2,
           name: 'LUSTRAEDI Knight (POEDAGAR)',
           tagline: 'Stainless Steel Vision',
-          price: 99.99,
-          originalPrice: 179.99,
-          images: [
-            'https://img.kwcdn.com/product/fancy/503d20ad-19b3-475a-af34-b4f02e218ad6.jpg',
-            'https://img.kwcdn.com/product/fancy/23126f54-d6a9-4670-87b6-f57f6487e47f.jpg',
-            'https://img.kwcdn.com/product/fancy/74514f0f-5dc4-4df0-ad0e-b42d6c3395cf.jpg'
+          price: 52000,
+          originalPrice: 252000,
+           images: [
+            'https://img.kwcdn.com/product/fancy/503d20ad-19b3-475a-af34-b4f02e218ad6.jpg', // Silver Black
+            'https://ae-pic-a1.aliexpress-media.com/kf/Sf02c9a5a22a64695b5033b43a0352f65L.jpg', // Silver Blue
+            'https://ae-pic-a1.aliexpress-media.com/kf/S56915b66a63b4426b3ed49b6daa3766bs.jpg', //  Silver White
           ],
           description: 'A masterpiece of classic design and modern functionality. The Knight features a bold stainless steel case, night vision luminosity, and a supple leather strap for ultimate comfort and style.',
           specs: { Material: 'Stainless Steel', 'Strap': 'Genuine Leather', 'Water Resistance': '3ATM', 'Movement': 'Quartz' },
-          variants: {
-            'Color': [
-              { name: 'Black', inStock: true, price: 99.99, images: ['https://img.kwcdn.com/product/fancy/503d20ad-19b3-475a-af34-b4f02e218ad6.jpg'] },
-              { name: 'Silver', inStock: true, price: 99.99, images: ['https://img.kwcdn.com/product/fancy/8058230b-da76-48a7-ad00-26cc9590f2da.jpg'] },
-              { name: 'Rose Gold', inStock: false, price: 99.99, images: ['https://img.kwcdn.com/product/fancy/74514f0f-5dc4-4df0-ad0e-b42d6c3395cf.jpg'] }
-            ],
-            'Strap': [
-              { name: 'Leather', inStock: true, price: 99.99 },
-              { name: 'Metal', inStock: true, price: 109.99 },
-              { name: 'Silicone', inStock: false, price: 89.99 }
-            ]
-          }
+          variants: [
+            { name: 'Silver Black', image: 'https://img.kwcdn.com/product/fancy/503d20ad-19b3-475a-af34-b4f02e218ad6.jpg' },
+            { name: 'Silver Blue', image: 'https://ae-pic-a1.aliexpress-media.com/kf/Sf02c9a5a22a64695b5033b43a0352f65L.jpg' },
+            { name: 'Silver White', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S56915b66a63b4426b3ed49b6daa3766bs.jpg_960x960q75.jpg' }
+          ]
         },
         {
           id: 3,
           name: 'LUSTRAEDI Aura (POEDAGAR)',
           tagline: 'Elegant Square Timepiece',
-          price: 119.99,
-          originalPrice: 209.99,
+          price: 48500,
+          originalPrice: 200000,
           images: [
-            'https://img.kwcdn.com/product/fancy/8058230b-da76-48a7-ad00-26cc9590f2da.jpg',
-            'https://img.kwcdn.com/product/fancy/64b19f17-f55a-4601-8b27-0c747128cf7e.jpg',
-            'https://img.kwcdn.com/product/fancy/f3c9e992-d04b-4b17-a006-a85942475510.jpg'
+            'https://img.kwcdn.com/product/fancy/8058230b-da76-48a7-ad00-26cc9590f2da.jpg', // Burgundy
+            'https://ae-pic-a1.aliexpress-media.com/kf/Sd7de7bb74af148fe82a0dd6c56ad727fq.jpg_960x960q75.jpg', // Rose Gold
+            'https://ae-pic-a1.aliexpress-media.com/kf/S4b943addbd544048b844acc45a8790e3l.jpg_960x960q75.jpg', // Black
+            'https://ae-pic-a1.aliexpress-media.com/kf/S8697dfd687514389877adb725c41c6a7o.jpg_960x960q75.jpg', // Gold Blue
+            'https://ae-pic-a1.aliexpress-media.com/kf/S2bd7d73cba5f4ae480f486fbf678b90bZ.jpg_960x960q75.jpg'  // Silver Blue
           ],
-          description: "Defy convention with the Aura's striking square dial and sophisticated burgundy face. A high-quality quartz movement ensures precision, making it the perfect accessory for both casual and formal wear.",
-          specs: { Material: 'Stainless Steel', 'Dial': 'Burgundy Sunray', 'Water Resistance': '3ATM', 'Movement': 'High-Quality Quartz' },
-          variants: {
-            'Color': [
-              { name: 'Burgundy', inStock: true, price: 119.99, images: ['https://img.kwcdn.com/product/fancy/8058230b-da76-48a7-ad00-26cc9590f2da.jpg'] },
-              { name: 'Black', inStock: true, price: 119.99, images: ['https://img.kwcdn.com/product/fancy/64b19f17-f55a-4601-8b27-0c747128cf7e.jpg'] },
-              { name: 'Navy Blue', inStock: true, price: 119.99, images: ['https://img.kwcdn.com/product/fancy/f3c9e992-d04b-4b17-a006-a85942475510.jpg'] }
-            ],
-            'Size': [
-              { name: '28mm', inStock: true, price: 119.99 },
-              { name: '32mm', inStock: true, price: 124.99 },
-              { name: '36mm', inStock: false, price: 129.99 }
-            ]
-          }
+          description: "Defy convention with the Aura's striking square dial and sophisticated face. A high-quality quartz movement ensures precision, making it the perfect accessory for both casual and formal wear.",
+          specs: { Material: 'Stainless Steel', 'Dial': 'Sunray Finish', 'Water Resistance': '3ATM', 'Movement': 'High-Quality Quartz' },
+          variants: [
+             { name: 'Burgundy', image: 'https://img.kwcdn.com/product/fancy/8058230b-da76-48a7-ad00-26cc9590f2da.jpg' },
+             { name: 'Rose Gold', image: 'https://ae-pic-a1.aliexpress-media.com/kf/Sd7de7bb74af148fe82a0dd6c56ad727fq.jpg_960x960q75.jpg' },
+             { name: 'Black', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S4b943addbd544048b844acc45a8790e3l.jpg_960x960q75.jpg' },
+             { name: 'Silver Blue', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S2bd7d73cba5f4ae480f486fbf678b90bZ.jpg_960x960q75.jpg' }
+             
+          ]
         },
         {
           id: 4,
-          name: 'LUSTRAEDI Apollo',
+          name: 'LUSTRAEDI Apollo (OLEVS)',
           tagline: 'Chronograph Moon Phase',
-          price: 149.99,
-          originalPrice: 249.99,
+          price: 73000,
+          originalPrice: 350000,
           images: [
-            'https://img.kwcdn.com/product/fancy/4b7631fa-5a1f-4727-aa37-abe79fb5e0f0.jpg',
-            'https://img.kwcdn.com/product/fancy/30718507-6c3d-425f-a7ec-7ca673e1dd20.jpg',
-            'https://img.kwcdn.com/product/fancy/1b88e146-27d1-419b-b9d6-511cdac3f71c.jpg'
+            'https://img.kwcdn.com/product/fancy/4b7631fa-5a1f-4727-aa37-abe79fb5e0f0.jpg', // Gold White
+            'https://ae-pic-a1.aliexpress-media.com/kf/S064e0743018442d880896b2f2496a312P.jpg_960x960q75.jpg', // Gold Black
+            'https://ae-pic-a1.aliexpress-media.com/kf/Sa981f3265b4749c2885ba3b0fc0f855dt.jpg_960x960q75.jpg', // Silver White
+            'https://ae-pic-a1.aliexpress-media.com/kf/S6fd9f8d5ff174c8bbd7e15bc161ada26n.jpg_960x960q75.jpg'  // Silver Black
           ],
-          description: 'For the man who reaches for the stars. The Apollo features a detailed chronograph, an enchanting moon phase display, and luminous hands, all housed in an elegant black dial with gold accents.',
+          description: 'For the man who reaches for the stars. The Apollo features a detailed chronograph, an enchanting moon phase display, and luminous hands, housed in an elegant and sophisticated dial.',
           specs: { Material: 'Stainless Steel', 'Features': 'Chronograph, Moon Phase, Date', 'Band': 'Stainless Steel', 'Movement': 'Quartz' },
-          variants: {
-            'Band Type': [
-              { name: 'Stainless Steel', inStock: true, price: 149.99, images: ['https://img.kwcdn.com/product/fancy/4b7631fa-5a1f-4727-aa37-abe79fb5e0f0.jpg'] },
-              { name: 'Leather', inStock: true, price: 149.99, images: ['https://img.kwcdn.com/product/fancy/30718507-6c3d-425f-a7ec-7ca673e1dd20.jpg'] },
-              { name: 'Silicone', inStock: false, price: 139.99, images: ['https://img.kwcdn.com/product/fancy/1b88e146-27d1-419b-b9d6-511cdac3f71c.jpg'] }
-            ],
-            'Color': [
-              { name: 'Black & Gold', inStock: true, price: 149.99 },
-              { name: 'Silver & Blue', inStock: true, price: 149.99 },
-              { name: 'All Black', inStock: true, price: 154.99 }
-            ]
-          }
+          variants: [
+            { name: 'Gold White', image: 'https://img.kwcdn.com/product/fancy/4b7631fa-5a1f-4727-aa37-abe79fb5e0f0.jpg' },
+            { name: 'Gold Black', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S064e0743018442d880896b2f2496a312P.jpg_960x960q75.jpg' },
+            { name: 'Silver Black', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S6fd9f8d5ff174c8bbd7e15bc161ada26n.jpg_960x960q75.jpg' }
+          ]
         },
         {
           id: 5,
-          name: 'LUSTRAEDI Celestial',
+          name: 'LUSTRAEDI Celestial (LIGE)',
           tagline: 'Astronomical Chronograph',
-          price: 159.99,
-          originalPrice: 269.99,
+          price: 53000,
+          originalPrice: 210000,
           images: [
-            'https://img.kwcdn.com/product/open/45aef77d88864012987b1356fc251e92-goods.jpeg',
-            'https://img.kwcdn.com/product/fancy/942c7457-37df-4835-b82b-bbd752c03c58.jpg',
-            'https://img.kwcdn.com/product/fancy/e82b7bd5-46aa-4a47-a77a-268e8334f6ba.jpg'
+            'https://img.kwcdn.com/product/open/45aef77d88864012987b1356fc251e92-goods.jpeg', //  brown gold blakc
+            'https://ae-pic-a1.aliexpress-media.com/kf/Sc2a72af76ecd4101aa82199b08d03055J.jpg_960x960q75.jpg', // silver blue
+            'https://ae-pic-a1.aliexpress-media.com/kf/Sd8c9cd25d7314e63b6c24b8b5ec9dff1Y.jpg_960x960q75.jpg' // rose gold black
           ],
           description: 'Capture the cosmos on your wrist. The Celestial boasts a unique astronomical dial showing sun and moon phases, paired with a precision chronograph and a luxurious black leather strap.',
           specs: { Material: 'Alloy Case', 'Strap': 'Black Leather', 'Features': 'Luminous Dial, Sun/Moon Phase', 'Power': 'Battery Powered Quartz' },
-          variants: {
-            'Strap': [
-              { name: 'Leather', inStock: true, price: 159.99, images: ['https://img.kwcdn.com/product/open/45aef77d88864012987b1356fc251e92-goods.jpeg'] },
-              { name: 'Metal', inStock: true, price: 169.99, images: ['https://img.kwcdn.com/product/fancy/942c7457-37df-4835-b82b-bbd752c03c58.jpg'] },
-              { name: 'Nylon', inStock: false, price: 149.99, images: ['https://img.kwcdn.com/product/fancy/e82b7bd5-46aa-4a47-a77a-268e8334f6ba.jpg'] }
-            ],
-            'Dial Color': [
-              { name: 'Black', inStock: true, price: 159.99 },
-              { name: 'Blue', inStock: true, price: 159.99 },
-              { name: 'White', inStock: true, price: 164.99 }
-            ]
-          }
+          variants: [
+            { name: 'brown gold blakc', image: 'https://img.kwcdn.com/product/open/45aef77d88864012987b1356fc251e92-goods.jpeg' },
+            { name: 'rose gold black', image: 'https://ae-pic-a1.aliexpress-media.com/kf/Sd8c9cd25d7314e63b6c24b8b5ec9dff1Y.jpg_960x960q75.jpg' }
+          ]
         },
         {
           id: 6,
-          name: 'LUSTRAEDI Titan(POEDAGAR)',
+          name: 'LUSTRAEDI Titan (POEDAGAR)',
           tagline: 'Waterproof Steel Chronograph',
-          price: 129.99,
-          originalPrice: 229.99,
-          video: ['https://goods-vod.kwcdn.com/goods-video/ab715543d4436d153f06998ff4e3bd9c092087aags2CV.f30.mp4',
-          ],
+          price: 60000,
+          originalPrice: 200000,
           images: [
-            'https://img.kwcdn.com/product/fancy/065a2d9f-299a-42e4-990d-8fab08664893.jpg',
-            'https://img.kwcdn.com/product/fancy/1cd45b49-4eac-4d48-b7ac-9d77b7e1da2b.jpg',
-            'https://img.kwcdn.com/product/fancy/74514f0f-5dc4-4df0-ad0e-b42d6c3395cf.jpg'
+            'https://img.kwcdn.com/product/fancy/065a2d9f-299a-42e4-990d-8fab08664893.jpg', // Silver Green
+            'https://ae-pic-a1.aliexpress-media.com/kf/S98fde2567e2842bfa00e07699ae524cbX.jpg_960x960q75.jpg', // Silver Blue
+            'https://ae-pic-a1.aliexpress-media.com/kf/S9a70d59ae7b3417dae009ad5d5eaca69B.jpg_960x960q75.jpg', // Gold Green
+            'https://ae-pic-a1.aliexpress-media.com/kf/S302a1e494fe040329e6c7ee47f6ed22bc.jpg_960x960q75.jpg', // Gold Blue
           ],
           description: 'Built for endurance and designed for style. The Titan is a robust, waterproof chronograph crafted from solid stainless steel, featuring a luminous calendar display for clarity in any condition.',
           specs: { Material: 'Stainless Steel', 'Features': 'Chronograph, Luminous, Calendar', 'Water Resistance': 'Suitable for swimming', 'Movement': 'Quartz' },
-          variants: {
-            'Color': [
-              { name: 'Black', inStock: true, price: 129.99, images: ['https://img.kwcdn.com/product/fancy/065a2d9f-299a-42e4-990d-8fab08664893.jpg'] },
-              { name: 'Silver', inStock: true, price: 129.99, images: ['https://img.kwcdn.com/product/fancy/1cd45b49-4eac-4d48-b7ac-9d77b7e1da2b.jpg'] },
-              { name: 'Gold', inStock: false, price: 139.99, images: ['https://img.kwcdn.com/product/fancy/74514f0f-5dc4-4df0-ad0e-b42d6c3395cf.jpg'] }
-            ],
-            'Size': [
-              { name: '40mm', inStock: true, price: 129.99 },
-              { name: '42mm', inStock: true, price: 134.99 },
-              { name: '44mm', inStock: true, price: 139.99 }
-            ]
-          }
+          variants: [
+            { name: 'Silver Green', image: 'https://img.kwcdn.com/product/fancy/065a2d9f-299a-42e4-990d-8fab08664893.jpg' },
+            { name: 'Silver Blue', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S98fde2567e2842bfa00e07699ae524cbX.jpg_960x960q75.jpg' },
+            { name: 'Gold Green', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S9a70d59ae7b3417dae009ad5d5eaca69B.jpg_960x960q75.jpg' },
+            { name: 'Gold Blue', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S302a1e494fe040329e6c7ee47f6ed22bc.jpg_960x960q75.jpg' }
+          ]
+        },
+        {
+          id: 7,
+          name: 'LUSTRAEDI Voyager (POEDAGAR)',
+          tagline: 'Luminous Date Wristwatch',
+          price: 68000,
+          originalPrice: 224000,
+          images: [
+            'https://ae-pic-a1.aliexpress-media.com/kf/S9ad5992f913b4de3a2dd20e05695c1a5l.jpg_960x960q75.jpg', // Silver White
+            'https://ae-pic-a1.aliexpress-media.com/kf/Se1675c69767c4ee3ba38b821cb6c374cX.jpg_960x960q75.jpg', // Gold Blue
+            'https://ae-pic-a1.aliexpress-media.com/kf/S7a39ee2debf94fd8952d149133ee555au.jpg_960x960q75.jpg', // Gold BLACK
+            'https://ae-pic-a1.aliexpress-media.com/kf/Sf14cc46504884ed984dee4e17218edadd.jpg_960x960q75.jpg', // Silver Black
+          ],
+          description: 'A classic timepiece for the modern explorer. The Voyager features a clean, readable dial with a luminous date display, crafted from durable stainless steel for reliability on any journey.',
+          specs: { Material: 'Stainless Steel', 'Features': 'Luminous Date', 'Band': 'Stainless Steel', 'Movement': 'Quartz' },
+          variants: [
+            { name: 'Silver White', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S9ad5992f913b4de3a2dd20e05695c1a5l.jpg_960x960q75.jpg' },
+            { name: 'Gold Blue', image: 'https://ae-pic-a1.aliexpress-media.com/kf/Se1675c69767c4ee3ba38b821cb6c374cX.jpg_960x960q75.jpg' },
+            { name: 'Gold Black', image: 'https://ae-pic-a1.aliexpress-media.com/kf/S7a39ee2debf94fd8952d149133ee555au.jpg_960x960q75.jpg' },
+            { name: 'Silver Black', image: 'https://ae-pic-a1.aliexpress-media.com/kf/Sf14cc46504884ed984dee4e17218edadd.jpg_960x960q75.jpg' }
+          ]
         }
       ];
 
       // --- STATE MANAGEMENT ---
       let cart = JSON.parse(localStorage.getItem('lustraediCart')) || [];
+      let currentSelectedVariant = null;
       
       // --- DOM ELEMENTS ---
       const productGrid = document.getElementById('product-grid');
@@ -404,11 +451,16 @@
       const checkoutButton = document.getElementById('checkout-button');
       const emailPopup = document.getElementById('email-popup');
       const closePopupBtn = document.getElementById('close-popup-btn');
+      const popupForm = document.getElementById('popup-form');
 
       // --- PAGE ROUTING ---
       function showPage(pageName, productId = null) {
         Object.values(mainPages).forEach(page => page.classList.add('hidden'));
-        mainPages[pageName].classList.remove('hidden');
+        if (mainPages[pageName]) {
+            mainPages[pageName].classList.remove('hidden');
+        } else {
+             mainPages['home'].classList.remove('hidden');
+        }
         window.scrollTo(0, 0);
 
         if (pageName === 'product' && productId) {
@@ -417,13 +469,9 @@
           renderCheckoutPage();
         }
       }
-
-      document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          showPage(link.dataset.page);
-        })
-      });
+      
+      // --- HELPER FUNCTION ---
+      const formatNaira = (amount) => `₦${amount.toLocaleString('en-NG')}`;
 
       // --- RENDERING FUNCTIONS ---
       function renderProducts() {
@@ -431,8 +479,8 @@
         productGrid.innerHTML = products.map(product => `
           <div class="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden group">
             <div class="relative overflow-hidden">
-                <img src="${product.images[0]}" alt="${product.name}" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300">
-                <div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <img src="${product.variants[0].image}" alt="${product.name}" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300">
+                <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <button class="view-product-btn cta-button bg-brand-gold text-black font-bold py-3 px-6 rounded-lg" data-id="${product.id}">View Details</button>
                 </div>
             </div>
@@ -440,8 +488,8 @@
               <h3 class="text-xl font-bold">${product.name}</h3>
               <p class="text-gray-400 mb-3">${product.tagline}</p>
               <div class="flex justify-center items-baseline space-x-2">
-                <p class="text-2xl font-bold brand-gold">$${product.price.toFixed(2)}</p>
-                <p class="text-lg text-gray-500 line-through">$${product.originalPrice.toFixed(2)}</p>
+                <p class="text-2xl font-bold brand-gold">${formatNaira(product.price)}</p>
+                <p class="text-lg text-gray-500 line-through">${formatNaira(product.originalPrice)}</p>
               </div>
               <button class="add-to-cart-btn mt-4 w-full bg-gray-800 text-brand-gold font-bold py-2 px-4 rounded-md hover:bg-brand-gold hover:text-black transition-colors" data-id="${product.id}">Add to Cart</button>
             </div>
@@ -457,442 +505,396 @@
             return;
         }
 
+        currentSelectedVariant = product.variants[0];
+
         const specsHtml = Object.entries(product.specs).map(([key, value]) => `
             <tr class="border-b border-gray-800">
                 <td class="py-2 pr-4 font-medium text-gray-300">${key}</td>
                 <td class="py-2 text-gray-400">${value}</td>
             </tr>
         `).join('');
-
-        const imageThumbnails = product.images.map((img, index) => `
-            <div class="cursor-pointer rounded-md border-2 ${index === 0 ? 'border-brand-gold' : 'border-transparent'} hover:border-brand-gold p-0 overflow-hidden" data-type="image" data-src="${img}">
-                <img src="${img}" alt="Thumbnail ${index+1}" class="w-full h-full object-cover">
-            </div>`).join('');
         
-        const videoThumbnail = product.video ? `
-            <div class="cursor-pointer rounded-md border-2 border-transparent hover:border-brand-gold p-0 overflow-hidden relative group" data-type="video" data-src="${product.video}">
-                <img src="${product.images[0]}" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
-                    <svg class="w-8 h-8 text-white group-hover:text-brand-gold" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path></svg>
+        const variantsHtml = product.variants.length > 1 ? `
+            <div class="mb-8">
+                <h3 class="text-lg font-medium mb-3">Color: <span id="variant-name">${currentSelectedVariant.name}</span></h3>
+                <div id="variant-selector" class="flex items-center space-x-3">
+                    ${product.variants.map((v, index) => `
+                        <img src="${v.image}" alt="${v.name}" 
+                             class="variant-swatch rounded-full object-cover ${index === 0 ? 'selected' : ''}"
+                             data-variant-name="${v.name}">
+                    `).join('')}
                 </div>
             </div>` : '';
-
-        // Generate variant selection HTML
-        let variantsHtml = '';
-        if (product.variants) {
-          variantsHtml = Object.entries(product.variants).map(([variantName, options]) => `
-            <div class="mb-6">
-              <h4 class="text-lg font-bold mb-3">${variantName}: <span id="selected-${variantName.toLowerCase().replace(/\s+/g, '-')}" class="text-brand-gold"></span></h4>
-              <div class="flex flex-wrap gap-2">
-                ${options.map(option => `
-                  <div class="variant-option ${option.inStock ? '' : 'out-of-stock'} ${option.name === options[0].name ? 'selected' : ''}" 
-                       data-variant="${variantName}" 
-                       data-value="${option.name}" 
-                       data-price="${option.price}"
-                       ${option.images ? `data-images='${JSON.stringify(option.images)}'` : ''}
-                       ${!option.inStock ? 'disabled' : ''}>
-                    ${option.name}${option.price !== product.price ? ` ($${option.price})` : ''}
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          `).join('');
-        }
 
         const recommendedProducts = products.filter(p => p.id !== productId).sort(() => 0.5 - Math.random()).slice(0, 3);
         const recommendationsHtml = recommendedProducts.map(rec => `
             <div class="border border-gray-800 rounded-lg p-4 text-center">
-                <img src="${rec.images[0]}" alt="${rec.name}" class="w-full h-48 object-cover rounded-md mb-4">
+                <img src="${rec.variants[0].image}" alt="${rec.name}" class="w-full h-48 object-cover rounded-md mb-4">
                 <h4 class="font-bold">${rec.name}</h4>
-                <p class="brand-gold">$${rec.price.toFixed(2)}</p>
+                <p class="brand-gold">${formatNaira(rec.price)}</p>
                 <button class="view-product-btn text-sm mt-2 text-gray-400 hover:text-brand-gold" data-id="${rec.id}">View Details &rarr;</button>
             </div>
         `).join('');
 
         mainPages.product.innerHTML = `
-          <div class="container mx-auto py-12 px-4">
-            <nav class="mb-6 text-sm text-gray-400">
-              <a href="#" class="hover:text-brand-gold" data-page="home-page">Home</a> &gt; <a href="#products" class="hover:text-brand-gold">Collection</a> &gt; <span class="text-brand-gold">${product.name}</span>
-            </nav>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-              <div>
-                <div class="mb-4 rounded-lg overflow-hidden bg-gray-800 aspect-square flex items-center justify-center">
-                  <img id="main-product-image" src="${product.images[0]}" alt="${product.name}" class="w-full h-full object-contain">
-                  <video id="main-product-video" class="w-full h-full object-contain hidden" controls></video>
-                </div>
-                <div class="grid grid-cols-4 gap-2">
-                  ${imageThumbnails}
-                  ${videoThumbnail}
-                </div>
+        <div class="container mx-auto py-16 px-6">
+          <button id="back-to-collection" class="mb-8 text-gray-400 hover:text-brand-gold">&larr; Back to Collection</button>
+          <div class="grid md:grid-cols-2 gap-12">
+            <div>
+              <img id="main-product-image" src="${currentSelectedVariant.image}" alt="${product.name}" class="w-full rounded-lg shadow-xl mb-4">
+              <div class="grid grid-cols-5 gap-4" id="thumbnail-gallery">
+                ${product.images.map((img, index) => `<img src="${img}" alt="Thumbnail ${index+1}" class="cursor-pointer rounded-md border-2 ${img === currentSelectedVariant.image ? 'border-brand-gold' : 'border-transparent'} hover:border-brand-gold" data-src="${img}">`).join('')}
               </div>
-              <div>
-                <h1 class="font-serif text-3xl md:text-4xl font-bold mb-2">${product.name}</h1>
-                <p class="text-xl text-gray-300 mb-4">${product.tagline}</p>
-                <div class="flex items-baseline space-x-3 mb-6">
-                  <p class="text-3xl font-bold brand-gold">$${product.price.toFixed(2)}</p>
-                  <p class="text-xl text-gray-500 line-through">$${product.originalPrice.toFixed(2)}</p>
-                </div>
-                <p class="text-gray-400 mb-8">${product.description}</p>
-                
-                ${variantsHtml}
-                
-                <div class="flex items-center space-x-4 mb-8">
-                  <div class="flex items-center border border-gray-700 rounded-md overflow-hidden">
-                    <button class="quantity-btn px-4 py-2 text-xl bg-gray-800 hover:bg-gray-700" data-action="decrease">-</button>
-                    <input type="number" id="product-quantity" class="w-16 text-center bg-black border-x border-gray-700 py-2" value="1" min="1">
-                    <button class="quantity-btn px-4 py-2 text-xl bg-gray-800 hover:bg-gray-700" data-action="increase">+</button>
+            </div>
+            <div>
+              <h2 class="font-serif text-4xl font-bold mb-2">${product.name}</h2>
+              <p class="text-lg text-gray-400 mb-4">${product.tagline}</p>
+              <div class="flex items-baseline space-x-3 mb-6">
+                  <p class="text-4xl font-bold brand-gold">${formatNaira(product.price)}</p>
+                  <p class="text-2xl text-gray-500 line-through">${formatNaira(product.originalPrice)}</p>
+              </div>
+              <p class="text-gray-300 mb-8">${product.description}</p>
+              ${variantsHtml}
+              <div class="flex items-center space-x-4 mb-8">
+                  <div class="flex items-center border border-gray-700 rounded-md">
+                      <button class="quantity-btn p-3" data-action="decrease">-</button>
+                      <span class="px-4 quantity-value">1</span>
+                      <button class="quantity-btn p-3" data-action="increase">+</button>
                   </div>
-                  <button id="add-to-cart-detail" class="flex-grow cta-button bg-brand-gold text-black font-bold py-3 px-6 rounded-lg" data-id="${product.id}">Add to Cart</button>
-                </div>
-                
-                <div class="border-t border-gray-800 pt-6">
-                  <h3 class="text-lg font-bold mb-4">Specifications</h3>
-                  <table class="w-full">
-                    <tbody>${specsHtml}</tbody>
-                  </table>
-                </div>
+                  <button class="add-to-cart-btn-detail flex-grow cta-button bg-brand-gold text-black font-extrabold py-3 px-10 rounded-lg text-lg" data-id="${product.id}">Add to Cart</button>
               </div>
-            </div>
-            
-            <div class="border-t border-gray-800 pt-12">
-              <h2 class="font-serif text-2xl md:text-3xl font-bold mb-8 text-center">You May Also Like</h2>
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                ${recommendationsHtml}
+              <div>
+                  <h3 class="text-xl font-bold mb-4 border-b border-gray-800 pb-2">Specifications</h3>
+                  <table class="w-full text-left">${specsHtml}</table>
               </div>
             </div>
           </div>
+        </div>
+        <section class="py-20 px-6 bg-gray-900">
+            <div class="container mx-auto">
+                <h3 class="font-serif text-3xl font-bold text-center mb-12">You May Also Like</h3>
+                <div class="grid md:grid-cols-3 gap-8">
+                    ${recommendationsHtml}
+                </div>
+            </div>
+        </section>
         `;
-
-        // Add event listeners for the product detail page
-        addDetailEventListeners(product);
+        addProductDetailEventListeners(product);
       }
-
+      
       function renderCheckoutPage() {
-        // Checkout page implementation would go here
+        if (cart.length === 0) {
+            showPage('home');
+            return;
+        }
+
+        const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const cartItemsSummaryHtml = cart.map(item => `
+            <div class="flex justify-between items-center py-2 border-b border-gray-800">
+                <div class="flex items-center space-x-4">
+                    <img src="${item.variant.image}" alt="${item.name}" class="w-12 h-12 object-cover rounded-md">
+                    <div>
+                        <p class="font-medium">${item.name}</p>
+                        <p class="text-sm text-gray-400">${item.variant.name} &times; ${item.quantity}</p>
+                    </div>
+                </div>
+                <p class="font-medium">${formatNaira(item.price * item.quantity)}</p>
+            </div>
+        `).join('');
+
         mainPages.checkout.innerHTML = `
-          <div class="container mx-auto max-w-4xl">
-            <h1 class="font-serif text-3xl md:text-4xl font-bold mb-8 text-center">Checkout</h1>
-            <p class="text-center text-gray-400 mb-12">Checkout functionality would be implemented here with Flutterwave integration.</p>
+        <div class="container mx-auto max-w-4xl">
+          <div class="grid lg:grid-cols-2 gap-12">
+            <div class="bg-black border border-brand-gold rounded-2xl p-8 shadow-2xl">
+              <h3 class="font-serif text-3xl font-extrabold brand-gold mb-6">Secure Checkout</h3>
+              <form id="paymentForm" class="space-y-6">
+                <input type="text" id="name" name="name" class="form-input" placeholder="Full Name" required>
+                <input type="tel" id="phone" name="phone" class="form-input" placeholder="Phone Number" required>
+                <input type="email" id="email" name="email" class="form-input" placeholder="Email Address" required>
+                <input type="address" id="address" name="address" class="form-input" placeholder="Delivery Address" required>
+                <button type="submit" id="submit-button" class="cta-button bg-brand-gold text-black font-extrabold py-4 rounded-lg w-full text-lg tracking-wide">
+                  🔒 Pay ${formatNaira(subtotal)} with Flutterwave
+                </button>
+              </form>
+            </div>
+            <div class="p-8">
+              <h3 class="font-serif text-3xl mb-6">Order Summary</h3>
+              <div class="space-y-4 mb-6">${cartItemsSummaryHtml}</div>
+              <div class="flex justify-between font-bold text-xl border-t border-gray-700 pt-4">
+                <span>Total</span>
+                <span class="brand-gold">${formatNaira(subtotal)}</span>
+              </div>
+              <button id="back-to-home-checkout" class="mt-8 text-gray-400 hover:text-brand-gold w-full text-center">&larr; Continue Shopping</button>
+            </div>
           </div>
-        `;
+        </div>`;
+        addCheckoutEventListeners();
       }
 
       function updateCartUI() {
-        const cartItemsContainer = document.getElementById('cart-items');
-        const cartItemCount = document.getElementById('cart-item-count');
-        const cartSubtotal = document.getElementById('cart-subtotal');
-        
-        if (cartItemsContainer) {
+          const cartItemsContainer = document.getElementById('cart-items');
+          const cartSubtotalEl = document.getElementById('cart-subtotal');
+          const cartItemCount = document.getElementById('cart-item-count');
+
+          cartItemCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+
           if (cart.length === 0) {
-            cartItemsContainer.innerHTML = '<p class="text-gray-400 text-center py-8">Your cart is empty.</p>';
+              cartItemsContainer.innerHTML = '<p class="text-gray-400 text-center py-8">Your cart is empty.</p>';
+              checkoutButton.disabled = true;
+              checkoutButton.classList.add('opacity-50', 'cursor-not-allowed');
           } else {
-            cartItemsContainer.innerHTML = cart.map(item => {
-              const product = products.find(p => p.id === item.productId);
-              return `
-                <div class="flex items-center space-x-4 py-4 border-b border-gray-800">
-                  <img src="${product.images[0]}" alt="${product.name}" class="w-16 h-16 object-cover rounded-md">
-                  <div class="flex-grow">
-                    <h4 class="font-bold">${product.name}</h4>
-                    <p class="text-sm text-gray-400">${Object.entries(item.variants || {}).map(([key, value]) => `${key}: ${value}`).join(', ')}</p>
-                    <div class="flex items-center justify-between mt-1">
-                      <p class="brand-gold">$${(item.price * item.quantity).toFixed(2)}</p>
-                      <div class="flex items-center">
-                        <button class="cart-quantity-btn text-gray-400 hover:text-white" data-action="decrease" data-id="${item.id}">-</button>
-                        <span class="mx-2">${item.quantity}</span>
-                        <button class="cart-quantity-btn text-gray-400 hover:text-white" data-action="increase" data-id="${item.id}">+</button>
+              checkoutButton.disabled = false;
+              checkoutButton.classList.remove('opacity-50', 'cursor-not-allowed');
+              cartItemsContainer.innerHTML = cart.map(item => `
+                  <div class="flex items-center space-x-4 mb-4 border-b border-gray-800 pb-4">
+                      <img src="${item.variant.image}" alt="${item.name}" class="w-20 h-20 object-cover rounded-md">
+                      <div class="flex-grow">
+                          <p class="font-bold">${item.name}</p>
+                          <p class="text-xs text-gray-400">${item.variant.name}</p>
+                          <div class="flex items-center mt-2">
+                              <button class="cart-quantity-btn" data-cart-id="${item.cartId}" data-action="decrease">-</button>
+                              <span class="px-3">${item.quantity}</span>
+                              <button class="cart-quantity-btn" data-cart-id="${item.cartId}" data-action="increase">+</button>
+                          </div>
                       </div>
-                    </div>
+                      <div class="text-right">
+                          <p class="font-bold">${formatNaira(item.price * item.quantity)}</p>
+                          <button class="cart-item-remove text-xs text-gray-500 mt-1" data-cart-id="${item.cartId}">Remove</button>
+                      </div>
                   </div>
-                  <button class="cart-item-remove text-gray-400 hover:text-red-500" data-id="${item.id}">&times;</button>
-                </div>
-              `;
-            }).join('');
+              `).join('');
           }
-        }
-        
-        if (cartItemCount) {
-          cartItemCount.textContent = cart.reduce((total, item) => total + item.quantity, 0);
-        }
-        
-        if (cartSubtotal) {
-          const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-          cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
-        }
-        
-        localStorage.setItem('lustraediCart', JSON.stringify(cart));
+          const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+          cartSubtotalEl.textContent = formatNaira(subtotal);
+          addCartEventListeners();
       }
+
 
       // --- EVENT LISTENERS ---
       function addGridEventListeners() {
-        document.querySelectorAll('.view-product-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const productId = parseInt(btn.dataset.id);
+        document.querySelectorAll('.view-product-btn').forEach(button => {
+          button.addEventListener('click', (e) => {
+            const productId = parseInt(e.currentTarget.dataset.id);
             showPage('product', productId);
           });
         });
-
-        document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const productId = parseInt(btn.dataset.id);
-            addToCart(productId);
+        document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+          button.addEventListener('click', (e) => {
+            const productId = parseInt(e.currentTarget.dataset.id);
+            const product = products.find(p => p.id === productId);
+            addToCart(productId, 1, product.variants[0]);
           });
         });
       }
 
-      function addDetailEventListeners(product) {
-        // Thumbnail selection
-        document.querySelectorAll('[data-type]').forEach(thumb => {
-          thumb.addEventListener('click', () => {
-            const type = thumb.dataset.type;
-            const src = thumb.dataset.src;
-            
-            document.querySelectorAll('[data-type]').forEach(t => {
-              t.classList.remove('border-brand-gold');
-              t.classList.add('border-transparent');
-            });
-            thumb.classList.remove('border-transparent');
-            thumb.classList.add('border-brand-gold');
-            
-            if (type === 'image') {
-              document.getElementById('main-product-image').src = src;
-              document.getElementById('main-product-image').classList.remove('hidden');
-              document.getElementById('main-product-video').classList.add('hidden');
-            } else if (type === 'video') {
-              const videoEl = document.getElementById('main-product-video');
-              videoEl.src = src;
-              videoEl.classList.remove('hidden');
-              document.getElementById('main-product-image').classList.add('hidden');
-              videoEl.play();
-            }
+      function addProductDetailEventListeners(product) {
+        document.getElementById('back-to-collection').addEventListener('click', () => showPage('home'));
+        
+        document.querySelectorAll('.view-product-btn').forEach(button => {
+          button.addEventListener('click', (e) => {
+            const newProductId = parseInt(e.currentTarget.dataset.id);
+            showPage('product', newProductId);
           });
         });
-
-        // Quantity buttons
-        document.querySelectorAll('.quantity-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const input = document.getElementById('product-quantity');
-            let value = parseInt(input.value);
-            
-            if (btn.dataset.action === 'increase') {
-              input.value = value + 1;
-            } else if (btn.dataset.action === 'decrease' && value > 1) {
-              input.value = value - 1;
-            }
-          });
-        });
-
-        // Variant selection
-        document.querySelectorAll('.variant-option:not(.out-of-stock)').forEach(option => {
-          option.addEventListener('click', () => {
-            const variantType = option.dataset.variant;
-            const variantValue = option.dataset.value;
-            
-            // Deselect all options of this variant type
-            document.querySelectorAll(`.variant-option[data-variant="${variantType}"]`).forEach(opt => {
-              opt.classList.remove('selected');
-            });
-            
-            // Select the clicked option
-            option.classList.add('selected');
-            
-            // Update the selected variant display
-            document.getElementById(`selected-${variantType.toLowerCase().replace(/\s+/g, '-')}`).textContent = variantValue;
-            
-            // Update price if this variant has a different price
-            const price = parseFloat(option.dataset.price);
-            const currentPriceEl = document.querySelector('.text-3xl.font-bold.brand-gold');
-            if (price && currentPriceEl && price !== product.price) {
-              currentPriceEl.textContent = `$${price.toFixed(2)}`;
-            }
-            
-            // Update images if this variant has specific images
-            if (option.dataset.images) {
-              try {
-                const variantImages = JSON.parse(option.dataset.images);
-                if (variantImages && variantImages.length > 0) {
-                  // Update main image
-                  document.getElementById('main-product-image').src = variantImages[0];
-                  
-                  // Update thumbnails (simplified implementation)
-                  const thumbnails = document.querySelectorAll('[data-type="image"]');
-                  if (thumbnails.length >= variantImages.length) {
-                    variantImages.forEach((img, i) => {
-                      if (thumbnails[i]) {
-                        thumbnails[i].querySelector('img').src = img;
-                        thumbnails[i].dataset.src = img;
-                      }
-                    });
-                  }
+        
+        const variantSelector = document.getElementById('variant-selector');
+        if (variantSelector) {
+            variantSelector.addEventListener('click', e => {
+                if (e.target.classList.contains('variant-swatch')) {
+                    const variantName = e.target.dataset.variantName;
+                    const variant = product.variants.find(v => v.name === variantName);
+                    if(variant) {
+                        currentSelectedVariant = variant;
+                        document.getElementById('main-product-image').src = variant.image;
+                        document.getElementById('variant-name').textContent = variant.name;
+                        document.querySelectorAll('.variant-swatch').forEach(sw => sw.classList.remove('selected'));
+                        e.target.classList.add('selected');
+                    }
                 }
-              } catch (e) {
-                console.error('Error parsing variant images:', e);
-              }
+            })
+        }
+
+        const quantityBtns = document.querySelectorAll('.quantity-btn');
+        const quantityValue = document.querySelector('.quantity-value');
+        quantityBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                let quantity = parseInt(quantityValue.textContent);
+                if (btn.dataset.action === 'increase') quantity++;
+                if (btn.dataset.action === 'decrease' && quantity > 1) quantity--;
+                quantityValue.textContent = quantity;
+            });
+        });
+
+        document.querySelector('.add-to-cart-btn-detail').addEventListener('click', () => {
+            const quantity = parseInt(quantityValue.textContent);
+            addToCart(product.id, quantity, currentSelectedVariant);
+        });
+
+        document.getElementById('thumbnail-gallery').addEventListener('click', (e) => {
+            if (e.target.tagName === 'IMG') {
+                document.getElementById('main-product-image').src = e.target.dataset.src;
+                document.querySelectorAll('#thumbnail-gallery img').forEach(img => img.classList.remove('border-brand-gold'));
+                e.target.classList.add('border-brand-gold');
             }
-          });
-        });
-
-        // Initialize selected variants
-        Object.entries(product.variants || {}).forEach(([variantName, options]) => {
-          const selectedOption = options[0];
-          document.getElementById(`selected-${variantName.toLowerCase().replace(/\s+/g, '-')}`).textContent = selectedOption.name;
-        });
-
-        // Add to cart button
-        document.getElementById('add-to-cart-detail').addEventListener('click', () => {
-          const quantity = parseInt(document.getElementById('product-quantity').value);
-          
-          // Get selected variants
-          const selectedVariants = {};
-          document.querySelectorAll('.variant-option.selected').forEach(option => {
-            const variantType = option.dataset.variant;
-            const variantValue = option.dataset.value;
-            selectedVariants[variantType] = variantValue;
-          });
-          
-          // Get price (check if a variant has a different price)
-          let finalPrice = product.price;
-          document.querySelectorAll('.variant-option.selected').forEach(option => {
-            const variantPrice = parseFloat(option.dataset.price);
-            if (variantPrice && variantPrice !== product.price) {
-              finalPrice = variantPrice;
-            }
-          });
-          
-          addToCart(product.id, quantity, selectedVariants, finalPrice);
-        });
-
-        // Recommended products
-        document.querySelectorAll('.view-product-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const productId = parseInt(btn.dataset.id);
-            showPage('product', productId);
-          });
         });
       }
 
       function addCartEventListeners() {
-        cartIcon.addEventListener('click', () => {
-          cartOverlay.classList.add('open');
+        document.querySelectorAll('.cart-item-remove').forEach(btn => {
+            btn.addEventListener('click', (e) => removeFromCart(e.currentTarget.dataset.cartId));
         });
-
-        closeCartBtn.addEventListener('click', () => {
-          cartOverlay.classList.remove('open');
-        });
-
-        checkoutButton.addEventListener('click', () => {
-          if (cart.length === 0) return;
-          showPage('checkout');
-          cartOverlay.classList.remove('open');
-        });
-
-        // Event delegation for cart item actions
-        document.getElementById('cart-items').addEventListener('click', (e) => {
-          if (e.target.classList.contains('cart-item-remove')) {
-            const itemId = e.target.dataset.id;
-            removeFromCart(itemId);
-          } else if (e.target.classList.contains('cart-quantity-btn')) {
-            const itemId = e.target.dataset.id;
-            const action = e.target.dataset.action;
-            adjustCartQuantity(itemId, action);
-          }
+        document.querySelectorAll('.cart-quantity-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const cartId = e.currentTarget.dataset.cartId;
+                const action = e.currentTarget.dataset.action;
+                const item = cart.find(i => i.cartId === cartId);
+                if (action === 'increase') {
+                    changeQuantity(cartId, item.quantity + 1);
+                } else if (action === 'decrease' && item.quantity > 1) {
+                    changeQuantity(cartId, item.quantity - 1);
+                }
+            });
         });
       }
 
-      // --- CART FUNCTIONS ---
-      function addToCart(productId, quantity = 1, variants = {}, price = null) {
-        const product = products.find(p => p.id === productId);
-        if (!product) return;
-        
-        const finalPrice = price || product.price;
-        
-        // Check if this exact product with these variants is already in cart
-        let existingItem = null;
-        if (Object.keys(variants).length > 0) {
-          existingItem = cart.find(item => {
-            if (item.productId !== productId) return false;
-            
-            // Check if all variants match
-            const itemVariantKeys = Object.keys(item.variants || {});
-            const newVariantKeys = Object.keys(variants);
-            
-            if (itemVariantKeys.length !== newVariantKeys.length) return false;
-            
-            return itemVariantKeys.every(key => 
-              item.variants[key] === variants[key]
+      function addCheckoutEventListeners() {
+          document.getElementById('back-to-home-checkout').addEventListener('click', () => showPage('home'));
+          document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            makeFlutterwavePayment(
+                formData.get('name'), 
+                formData.get('phone'), 
+                formData.get('email'),
+                total
             );
           });
-        } else {
-          existingItem = cart.find(item => item.productId === productId && Object.keys(item.variants || {}).length === 0);
-        }
-        
+      }
+
+      cartIcon.addEventListener('click', () => cartOverlay.classList.add('open'));
+      closeCartBtn.addEventListener('click', () => cartOverlay.classList.remove('open'));
+      checkoutButton.addEventListener('click', () => {
+        cartOverlay.classList.remove('open');
+        showPage('checkout');
+      });
+      
+      // --- HEADER NAVIGATION FIX ---
+      document.querySelectorAll('header nav a').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const targetId = this.getAttribute('href'); // e.g., "#products"
+            const targetElement = document.querySelector(targetId);
+
+            // If the target element is already on the page (i.e., we are on the home page)
+            // let the default smooth scroll behavior work.
+            if(mainPages.home.classList.contains('hidden')) {
+                e.preventDefault();
+                // If not on the home page, show it first
+                showPage('home');
+
+                // Then, scroll to the target element after a short delay
+                // to allow the page to render.
+                setTimeout(() => {
+                    document.querySelector(targetId)?.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            }
+        });
+      });
+
+
+      // --- CART LOGIC ---
+      function addToCart(productId, quantity = 1, variant) {
+        const product = products.find(p => p.id === productId);
+        // A unique ID for the cart item based on product and variant
+        const cartId = `${productId}-${variant.name.replace(/\s+/g, '-')}`;
+        const existingItem = cart.find(item => item.cartId === cartId);
+
         if (existingItem) {
           existingItem.quantity += quantity;
         } else {
-          // Generate a unique ID for this cart item
-          const itemId = Date.now().toString(36) + Math.random().toString(36).substr(2);
-          
-          cart.push({
-            id: itemId,
-            productId,
-            name: product.name,
-            price: finalPrice,
-            quantity,
-            variants: Object.keys(variants).length > 0 ? variants : null,
-            image: product.images[0]
-          });
+          cart.push({ ...product, quantity, variant, cartId });
         }
         
+        saveCart();
         updateCartUI();
-        
-        // Show confirmation
-        const confirmation = document.createElement('div');
-        confirmation.className = 'fixed bottom-4 right-4 bg-brand-gold text-black px-6 py-3 rounded-lg shadow-lg z-50';
-        confirmation.textContent = 'Added to cart!';
-        document.body.appendChild(confirmation);
-        
-        setTimeout(() => {
-          confirmation.remove();
-        }, 3000);
+        cartOverlay.classList.add('open'); // Open cart on add
       }
 
-      function removeFromCart(itemId) {
-        cart = cart.filter(item => item.id !== itemId);
+      function removeFromCart(cartId) {
+        cart = cart.filter(item => item.cartId !== cartId);
+        saveCart();
         updateCartUI();
       }
 
-      function adjustCartQuantity(itemId, action) {
-        const item = cart.find(item => item.id === itemId);
-        if (!item) return;
-        
-        if (action === 'increase') {
-          item.quantity += 1;
-        } else if (action === 'decrease' && item.quantity > 1) {
-          item.quantity -= 1;
+      function changeQuantity(cartId, newQuantity) {
+        const item = cart.find(i => i.cartId === cartId);
+        if (item && newQuantity > 0) {
+            item.quantity = newQuantity;
+            saveCart();
+            updateCartUI();
         }
-        
-        updateCartUI();
       }
 
-      // --- INITIALIZATION ---
-      function init() {
-        renderProducts();
-        updateCartUI();
-        addCartEventListeners();
-        
-        // Show email popup after a delay
-        setTimeout(() => {
-          if (!localStorage.getItem('emailPopupShown')) {
-            emailPopup.classList.remove('hidden');
-            localStorage.setItem('emailPopupShown', 'true');
+      function saveCart() {
+        localStorage.setItem('lustraediCart', JSON.stringify(cart));
+      }
+
+      // --- PAYMENT ---
+      function makeFlutterwavePayment(name, phone, email, amount) {
+        FlutterwaveCheckout({
+          public_key: "FLWPUBK-4909a34fed388750f5380f3a91d3dd55-X",
+          tx_ref: "LUSTRAEDI-" + Date.now(),
+          amount: amount,
+          currency: "NGN", // *** UPDATED TO NGN ***
+          payment_options: "card, banktransfer, ussd",
+          redirect_url: "thank-you.html", // Updated redirect URL
+          customer: { email, phone_number: phone, name },
+          customizations: {
+            title: "LUSTRAEDI",
+            description: "Payment for Luxury Timepieces",
+            logo: "https://raw.githubusercontent.com/Mide000/Lustraedi-files/main/images/logo.png.png",
+          },
+          callback: function(response) {
+              if (response.status === "successful") {
+                  cart = []; // Clear cart on successful payment
+                  saveCart();
+                  updateCartUI();
+                  window.location.href = 'thank-you.html'; // Redirect on success
+              } else {
+                  alert('Payment was not successful. Please try again.');
+              }
+          },
+          onclose: function() {
+              console.log("Payment modal closed.");
           }
-        }, 3000);
-        
-        closePopupBtn.addEventListener('click', () => {
-          emailPopup.classList.add('hidden');
         });
       }
 
-      init();
+      // --- MARKETING POPUPS ---
+      setTimeout(() => {
+        if (!sessionStorage.getItem('popupShown')) {
+            emailPopup.classList.remove('hidden');
+            emailPopup.classList.add('flex');
+            sessionStorage.setItem('popupShown', 'true');
+        }
+      }, 5000); // Show after 5 seconds
+      
+      const closeAndHidePopup = () => {
+        emailPopup.classList.add('hidden');
+        emailPopup.classList.remove('flex');
+      }
+      
+      closePopupBtn.addEventListener('click', closeAndHidePopup);
+      popupForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          // Here you would typically send the email to your service
+          console.log("Email submitted for discount.");
+          closeAndHidePopup();
+      });
+
+      // --- INITIALIZATION ---
+      renderProducts();
+      updateCartUI();
     });
   </script>
 </body>
