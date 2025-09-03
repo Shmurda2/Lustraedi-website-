@@ -1,416 +1,899 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUSTRAEDI - 2-in-1 Smartwatch & Buds</title>
-    
-    <!-- FAVICON LINK -->
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico.png">
-    
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS for rapid styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Custom Styles and Overrides -->
-    <style>
-        /* Using Inter as the primary font */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a; /* A very dark, near-black for a premium feel */
-            color: #f1f1f1;
-        }
-        
-        /* Custom brand colors for easy reuse */
-        .brand-gold {
-            color: #FFBF00; /* A rich, vibrant gold */
-        }
-        .bg-brand-gold {
-            background-color: #FFBF00;
-        }
-        .border-brand-gold {
-            border-color: #FFBF00;
-        }
-        .hover\:bg-brand-gold-dark:hover {
-            background-color: #e6ac00; /* A slightly darker gold for hover effects */
-        }
-        
-        /* Styling for the hero section gradient */
-        .hero-gradient {
-            background: radial-gradient(ellipse at top, rgba(255, 191, 0, 0.1), transparent 70%), 
-                        radial-gradient(ellipse at bottom, rgba(255, 191, 0, 0.1), transparent 70%);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUSTRAEDI - Premium Watches & Timepieces</title>
 
-        /* Animated CTA button */
-        .cta-button {
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0 4px 15px 0 rgba(255, 191, 0, 0.4);
-        }
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 20px 0 rgba(255, 191, 0, 0.6);
-        }
+  <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Mide000/Lustraedi-files/main/images/favicon.ico.png">
 
-        /* Input field styling */
-        .form-input {
-            background-color: #1a1a1a;
-            border: 1px solid #333;
-            color: #f1f1f1;
-            border-radius: 8px;
-            padding: 12px;
-            width: 100%;
-            transition: border-color 0.3s;
-        }
-        .form-input:focus {
-            outline: none;
-            border-color: #FFBF00;
-        }
-        
-        /* Custom radio button for payment selection */
-        .payment-option {
-            border: 1px solid #333;
-            transition: all 0.3s;
-        }
-        .payment-option.selected {
-            border-color: #FFBF00;
-            background-color: rgba(255, 191, 0, 0.05);
-            box-shadow: 0 0 10px rgba(255, 191, 0, 0.2);
-        }
-    </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #f1f1f1; }
+    .font-serif { font-family: 'Playfair Display', serif; }
+    .brand-gold { color: #FFBF00; }
+    .bg-brand-gold { background-color: #FFBF00; }
+    .border-brand-gold { border-color: #FFBF00; }
+    .hero-gradient {
+      background: radial-gradient(ellipse at 50% 0%, rgba(255, 191, 0, 0.1), transparent 70%);
+    }
+    .cta-button { transition: all 0.3s ease-in-out; box-shadow: 0 4px 15px 0 rgba(255, 191, 0, 0.3); }
+    .cta-button:hover { transform: translateY(-3px); box-shadow: 0 7px 20px 0 rgba(255, 191, 0, 0.5); }
+    .form-input { background:#1a1a1a; border:1px solid #333; color:#f1f1f1; border-radius:8px; padding:12px; width:100%; }
+    .form-input:focus { outline:none; border-color:#FFBF00; }
+    html { scroll-behavior: smooth; }
+
+    /* Cart Overlay styles */
+    #cart-overlay {
+      transition: transform 0.3s ease-in-out;
+      transform: translateX(100%);
+    }
+    #cart-overlay.open {
+      transform: translateX(0);
+    }
+    .cart-item-remove:hover { color: #ef4444; }
+
+    /* Custom scrollbar for cart */
+    .cart-scroll::-webkit-scrollbar { width: 6px; }
+    .cart-scroll::-webkit-scrollbar-track { background: #1a1a1a; }
+    .cart-scroll::-webkit-scrollbar-thumb { background: #FFBF00; border-radius: 3px; }
+
+    /* Popup Modal Styles */
+    .popup-modal {
+        background-color: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(5px);
+    }
+    
+    /* Variant Styles */
+    .variant-option {
+      border: 1px solid #333;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .variant-option:hover {
+      border-color: #FFBF00;
+    }
+    .variant-option.selected {
+      border-color: #FFBF00;
+      background-color: rgba(255, 191, 0, 0.1);
+    }
+    .variant-option.out-of-stock {
+      opacity: 0.5;
+      cursor: not-allowed;
+      text-decoration: line-through;
+    }
+  </style>
 </head>
 <body class="antialiased">
 
-    <!-- Header Section -->
-    <header class="py-4 px-6 md:px-12 sticky top-0 z-50 border-b border-gray-800" style="background-image: linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.85)), url('images/header-bg.jpg'); background-size: cover; background-position: center;">
-        <div class="container mx-auto flex justify-between items-center">
-             <!-- LOGO -->
-            <img src="images/logo.png.png" alt="LUSTRAEDI Logo" class="h-10">
-            <a href="#order-form" class="cta-button bg-brand-gold text-black font-bold py-2 px-6 rounded-lg text-sm md:text-base hidden sm:inline-block">
-                ORDER NOW
-            </a>
+  <header class="py-4 px-6 md:px-12 sticky top-0 z-50 border-b border-gray-800 bg-black/80 backdrop-blur-sm">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="#" class="nav-link" data-page="home-page">
+        <img src="https://raw.githubusercontent.com/Mide000/Lustraedi-files/main/images/logo.png.png" alt="LUSTRAEDI Logo" class="h-10">
+      </a>
+      <nav class="hidden md:flex space-x-8 text-gray-300 font-medium">
+        <a href="#products" class="hover:text-brand-gold">Our Collection</a>
+        <a href="#about" class="hover:text-brand-gold">Our Story</a>
+        <a href="#reviews" class="hover:text-brand-gold">Reviews</a>
+      </nav>
+      <div class="flex items-center space-x-4">
+        <button id="cart-icon" class="relative">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-300 hover:text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <span id="cart-item-count" class="absolute -top-2 -right-2 bg-brand-gold text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div id="home-page">
+      <section class="hero-gradient pt-16 pb-8 md:pt-24 md:pb-12 px-6">
+        <div class="container mx-auto text-center">
+          <h1 class="font-serif text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
+            Exquisite Timepieces,<br class="hidden md:block"> Redefining Luxury.
+          </h1>
+          <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+            Discover the LUSTRAEDI collection, where timeless design meets modern craftsmanship. Each watch is a statement of elegance and precision.
+          </p>
+          <a href="#products" class="cta-button bg-brand-gold text-black font-extrabold py-4 px-10 rounded-lg text-lg tracking-wide shadow-lg hover:scale-105 transition-transform">
+            Explore The Collection
+          </a>
         </div>
-    </header>
+      </section>
 
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="hero-gradient py-16 md:py-24 px-6">
-            <div class="container mx-auto text-center">
-                <h2 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">The Future on Your Wrist. <br class="hidden md:block"> Music in Your Ears.</h2>
-                <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8">Experience the revolutionary 2-in-1 Smartwatch with premium Hi-Fi earbuds hidden inside. Seamlessly switch between tracking your fitness and immersing yourself in crystal-clear audio.</p>
-                <div class="flex justify-center items-center gap-4 mb-12">
-                     <a href="#order-form" class="cta-button bg-brand-gold text-black font-bold py-4 px-10 rounded-lg text-lg">
-                        YES, I WANT THIS!
-                    </a>
-                </div>
-                <div class="relative max-w-4xl mx-auto">
-                    <img src="images/Screenshot_2025-08-25_121039-removebg-preview.png" 
-                         alt="LUSTRAEDI 2-in-1 Smartwatch showing charging mechanism for earbuds" 
-                         class="rounded-2xl shadow-2xl mx-auto"
-                         onerror="this.onerror=null;this.src='https://placehold.co/1200x600/0a0a0a/FFFFFF?text=Image+Not+Available';">
+      <section id="products" class="py-20 px-6 bg-black">
+        <div class="container mx-auto">
+          <div class="text-center mb-16">
+            <h2 class="font-serif text-3xl md:text-4xl font-bold">Our <span class="brand-gold">Signature</span> Collection</h2>
+            <p class="text-gray-400 mt-2">Handpicked for the discerning individual.</p>
+          </div>
+          <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+            </div>
+        </div>
+      </section>
+
+      <section id="about" class="py-20 px-6 bg-gray-900">
+        <div class="container mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4">The <span class="brand-gold">LUSTRAEDI</span> Legacy</h2>
+                <p class="text-gray-300 mb-4">Founded on the principle of accessible luxury, LUSTRAEDI was born from a passion for horology and a desire to bring exceptional timepieces to the world. We believe a great watch does more than tell time—it tells a story.</p>
+                <p class="text-gray-300">Our journey is one of meticulous design, sourcing of premium materials, and a commitment to craftsmanship that stands the test of time. Each piece in our collection is a testament to this philosophy, built for those who appreciate the finer things in life.</p>
+            </div>
+            <div>
+                <img src="https://images.unsplash.com/photo-1594576722539-a7195973ae94?q=80&w=1887&auto=format&fit=crop" alt="Watchmaker crafting a watch" class="rounded-lg shadow-xl">
+            </div>
+        </div>
+      </section>
+      
+      <section id="reviews" class="py-20 px-6">
+        <div class="container mx-auto text-center">
+          <h3 class="font-serif text-3xl md:text-4xl font-bold mb-12">What Our Clients Say</h3>
+          <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                <div class="flex justify-center mb-3 text-yellow-400">★★★★★</div>
+                <p class="text-gray-300 mb-4">"The Apollo Chronograph is stunning. It looks and feels ten times its price. Fast delivery to Lagos!"</p>
+                <p class="font-bold">- Tunde, Lekki</p>
+            </div>
+            <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                <div class="flex justify-center mb-3 text-yellow-400">★★★★★</div>
+                <p class="text-gray-300 mb-4">"I bought the 'Aura' for my wife and she adores it. Elegant, classy, and beautifully made."</p>
+                <p class="font-bold">- Emeka, Abuja</p>
+            </div>
+            <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
+                <div class="flex justify-center mb-3 text-yellow-400">★★★★★</div>
+                <p class="text-gray-300 mb-4">"My Fusion smartwatch is a game-changer. The hidden earbuds are genius. Highly recommend LUSTRAEDI."</p>
+                <p class="font-bold">- Bayo, Ibadan</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-20 px-6 bg-gray-900">
+        <div class="container mx-auto grid md:grid-cols-3 gap-8 text-center">
+            <div>
+                <h4 class="text-xl font-bold mb-2 brand-gold">2-Year Warranty</h4>
+                <p class="text-gray-400">Every LUSTRAEDI timepiece is covered by our comprehensive 24-month international warranty.</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-2 brand-gold">Secure Payments</h4>
+                <p class="text-gray-400">Your transactions are safe with our encrypted payment gateway powered by Flutterwave.</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-2 brand-gold">Free Express Shipping</h4>
+                <p class="text-gray-400">We offer complimentary express shipping on all orders across Nigeria.</p>
+            </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="product-detail-page" class="hidden">
+      </div>
+
+    <div id="checkout-page" class="hidden py-20 px-6 hero-gradient">
+      </div>
+  </main>
+
+  <footer class="bg-black border-t border-gray-800 py-8 px-6">
+    <div class="container mx-auto text-center text-gray-400">
+      <img src="https://raw.githubusercontent.com/Mide000/Lustraedi-files/main/images/logo.png.png" class="h-12 mx-auto mb-4">
+      <p>For support, contact: <a href="mailto:support@lustraedi.com" class="underline">support@lustraedi.com</a></p>
+      <div class="text-sm mt-4 space-x-4">
+        <a href="#" class="hover:underline">Privacy Policy</a> | 
+        <a href="#" class="hover:underline">Refund Policy</a> | 
+        <a href="#" class="hover:underline">Terms & Conditions</a> |
+        <a href="#" class="hover:underline">Warranty</a> |
+        <a href="#" class="hover:underline">Size Guide</a>
+      </div>
+      <p class="text-sm mt-4">&copy; 2025 LUSTRAEDI. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <div id="cart-overlay" class="fixed top-0 right-0 h-full w-full md:w-96 bg-black z-50 shadow-2xl flex flex-col">
+    <div class="flex justify-between items-center p-4 border-b border-gray-800">
+      <h3 class="font-serif text-2xl brand-gold">Your Cart</h3>
+      <button id="close-cart-btn" class="text-gray-400 hover:text-white">&times;</button>
+    </div>
+    <div id="cart-items" class="flex-grow p-4 overflow-y-auto cart-scroll">
+      </div>
+    <div class="p-4 border-t border-gray-800 space-y-4">
+      <div class="flex justify-between font-bold text-lg">
+        <span>Subtotal</span>
+        <span id="cart-subtotal">$0.00</span>
+      </div>
+      <button id="checkout-button" class="w-full cta-button bg-brand-gold text-black font-bold py-3 px-6 rounded-lg">
+        Proceed to Checkout
+      </button>
+    </div>
+  </div>
+
+  <div id="email-popup" class="hidden fixed inset-0 z-50 items-center justify-center p-4 popup-modal">
+        <div class="bg-gray-900 border border-brand-gold rounded-xl p-8 max-w-md w-full text-center relative">
+            <button id="close-popup-btn" class="absolute top-2 right-4 text-2xl text-gray-500 hover:text-white">&times;</button>
+            <h3 class="font-serif text-3xl brand-gold mb-2">Welcome!</h3>
+            <p class="text-gray-300 mb-6">Join our exclusive list and get <span class="font-bold">10% OFF</span> your first order.</p>
+            <form class="space-y-4">
+                <input type="email" class="form-input" placeholder="Enter your email address" required>
+                <button type="submit" class="w-full cta-button bg-brand-gold text-black font-bold py-3 px-6 rounded-lg">Claim My Discount</button>
+            </form>
+        </div>
+    </div>
+
+
+  <script src="https://checkout.flutterwave.com/v3.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- DATABASE ---
+      const products = [
+        {
+          id: 1,
+          name: 'LUSTRAEDI Fusion',
+          tagline: '2-in-1 Smartwatch & Buds',
+          price: 179.99,
+          originalPrice: 259.99,
+          images: [
+            'https://raw.githubusercontent.com/Mide000/Lustraedi-files/main/images/Screenshot_2025-08-25_121039-removebg-preview.png',
+            'https://raw.githubusercontent.com/Mide000/Lustraedi-files/main/images/Screenshot_2025-08-21_222133-removebg-preview.png',
+            'https://raw.githubusercontent.com/Mide000/Lustraedi-files/main/images/Screenshot_2025-08-21_193354-removebg-preview.png'
+          ],
+          description: 'Experience the revolutionary 2-in-1 Smartwatch with premium Hi-Fi earbuds hidden inside. Seamlessly switch between tracking your fitness and immersing yourself in crystal-clear audio.',
+          specs: { Material: 'Zinc Alloy + IML', 'Strap': 'Silicone', 'Water Resistance': 'IP67', 'Features': 'Heart Rate, Blood Oxygen, Hi-Fi Audio' },
+          variants: {
+            'Color': [
+              { name: 'Black', inStock: true, price: 179.99, images: ['https://raw.githubusercontent.com/Mide000/Lustraedi-files/main/images/Screenshot_2025-08-25_121039-removebg-preview.png'] },
+              { name: 'Silver', inStock: true, price: 179.99, images: ['https://img.kwcdn.com/product/fancy/8058230b-da76-48a7-ad00-26cc9590f2da.jpg'] }
+            ]
+          }
+        },
+        {
+          id: 2,
+          name: 'LUSTRAEDI Knight (POEDAGAR)',
+          tagline: 'Stainless Steel Vision',
+          price: 99.99,
+          originalPrice: 179.99,
+          images: [
+            'https://img.kwcdn.com/product/fancy/503d20ad-19b3-475a-af34-b4f02e218ad6.jpg',
+            'https://img.kwcdn.com/product/fancy/23126f54-d6a9-4670-87b6-f57f6487e47f.jpg',
+            'https://img.kwcdn.com/product/fancy/74514f0f-5dc4-4df0-ad0e-b42d6c3395cf.jpg'
+          ],
+          description: 'A masterpiece of classic design and modern functionality. The Knight features a bold stainless steel case, night vision luminosity, and a supple leather strap for ultimate comfort and style.',
+          specs: { Material: 'Stainless Steel', 'Strap': 'Genuine Leather', 'Water Resistance': '3ATM', 'Movement': 'Quartz' },
+          variants: {
+            'Color': [
+              { name: 'Black', inStock: true, price: 99.99, images: ['https://img.kwcdn.com/product/fancy/503d20ad-19b3-475a-af34-b4f02e218ad6.jpg'] },
+              { name: 'Silver', inStock: true, price: 99.99, images: ['https://img.kwcdn.com/product/fancy/8058230b-da76-48a7-ad00-26cc9590f2da.jpg'] },
+              { name: 'Rose Gold', inStock: false, price: 99.99, images: ['https://img.kwcdn.com/product/fancy/74514f0f-5dc4-4df0-ad0e-b42d6c3395cf.jpg'] }
+            ],
+            'Strap': [
+              { name: 'Leather', inStock: true, price: 99.99 },
+              { name: 'Metal', inStock: true, price: 109.99 },
+              { name: 'Silicone', inStock: false, price: 89.99 }
+            ]
+          }
+        },
+        {
+          id: 3,
+          name: 'LUSTRAEDI Aura (POEDAGAR)',
+          tagline: 'Elegant Square Timepiece',
+          price: 119.99,
+          originalPrice: 209.99,
+          images: [
+            'https://img.kwcdn.com/product/fancy/8058230b-da76-48a7-ad00-26cc9590f2da.jpg',
+            'https://img.kwcdn.com/product/fancy/64b19f17-f55a-4601-8b27-0c747128cf7e.jpg',
+            'https://img.kwcdn.com/product/fancy/f3c9e992-d04b-4b17-a006-a85942475510.jpg'
+          ],
+          description: "Defy convention with the Aura's striking square dial and sophisticated burgundy face. A high-quality quartz movement ensures precision, making it the perfect accessory for both casual and formal wear.",
+          specs: { Material: 'Stainless Steel', 'Dial': 'Burgundy Sunray', 'Water Resistance': '3ATM', 'Movement': 'High-Quality Quartz' },
+          variants: {
+            'Color': [
+              { name: 'Burgundy', inStock: true, price: 119.99, images: ['https://img.kwcdn.com/product/fancy/8058230b-da76-48a7-ad00-26cc9590f2da.jpg'] },
+              { name: 'Black', inStock: true, price: 119.99, images: ['https://img.kwcdn.com/product/fancy/64b19f17-f55a-4601-8b27-0c747128cf7e.jpg'] },
+              { name: 'Navy Blue', inStock: true, price: 119.99, images: ['https://img.kwcdn.com/product/fancy/f3c9e992-d04b-4b17-a006-a85942475510.jpg'] }
+            ],
+            'Size': [
+              { name: '28mm', inStock: true, price: 119.99 },
+              { name: '32mm', inStock: true, price: 124.99 },
+              { name: '36mm', inStock: false, price: 129.99 }
+            ]
+          }
+        },
+        {
+          id: 4,
+          name: 'LUSTRAEDI Apollo',
+          tagline: 'Chronograph Moon Phase',
+          price: 149.99,
+          originalPrice: 249.99,
+          images: [
+            'https://img.kwcdn.com/product/fancy/4b7631fa-5a1f-4727-aa37-abe79fb5e0f0.jpg',
+            'https://img.kwcdn.com/product/fancy/30718507-6c3d-425f-a7ec-7ca673e1dd20.jpg',
+            'https://img.kwcdn.com/product/fancy/1b88e146-27d1-419b-b9d6-511cdac3f71c.jpg'
+          ],
+          description: 'For the man who reaches for the stars. The Apollo features a detailed chronograph, an enchanting moon phase display, and luminous hands, all housed in an elegant black dial with gold accents.',
+          specs: { Material: 'Stainless Steel', 'Features': 'Chronograph, Moon Phase, Date', 'Band': 'Stainless Steel', 'Movement': 'Quartz' },
+          variants: {
+            'Band Type': [
+              { name: 'Stainless Steel', inStock: true, price: 149.99, images: ['https://img.kwcdn.com/product/fancy/4b7631fa-5a1f-4727-aa37-abe79fb5e0f0.jpg'] },
+              { name: 'Leather', inStock: true, price: 149.99, images: ['https://img.kwcdn.com/product/fancy/30718507-6c3d-425f-a7ec-7ca673e1dd20.jpg'] },
+              { name: 'Silicone', inStock: false, price: 139.99, images: ['https://img.kwcdn.com/product/fancy/1b88e146-27d1-419b-b9d6-511cdac3f71c.jpg'] }
+            ],
+            'Color': [
+              { name: 'Black & Gold', inStock: true, price: 149.99 },
+              { name: 'Silver & Blue', inStock: true, price: 149.99 },
+              { name: 'All Black', inStock: true, price: 154.99 }
+            ]
+          }
+        },
+        {
+          id: 5,
+          name: 'LUSTRAEDI Celestial',
+          tagline: 'Astronomical Chronograph',
+          price: 159.99,
+          originalPrice: 269.99,
+          images: [
+            'https://img.kwcdn.com/product/open/45aef77d88864012987b1356fc251e92-goods.jpeg',
+            'https://img.kwcdn.com/product/fancy/942c7457-37df-4835-b82b-bbd752c03c58.jpg',
+            'https://img.kwcdn.com/product/fancy/e82b7bd5-46aa-4a47-a77a-268e8334f6ba.jpg'
+          ],
+          description: 'Capture the cosmos on your wrist. The Celestial boasts a unique astronomical dial showing sun and moon phases, paired with a precision chronograph and a luxurious black leather strap.',
+          specs: { Material: 'Alloy Case', 'Strap': 'Black Leather', 'Features': 'Luminous Dial, Sun/Moon Phase', 'Power': 'Battery Powered Quartz' },
+          variants: {
+            'Strap': [
+              { name: 'Leather', inStock: true, price: 159.99, images: ['https://img.kwcdn.com/product/open/45aef77d88864012987b1356fc251e92-goods.jpeg'] },
+              { name: 'Metal', inStock: true, price: 169.99, images: ['https://img.kwcdn.com/product/fancy/942c7457-37df-4835-b82b-bbd752c03c58.jpg'] },
+              { name: 'Nylon', inStock: false, price: 149.99, images: ['https://img.kwcdn.com/product/fancy/e82b7bd5-46aa-4a47-a77a-268e8334f6ba.jpg'] }
+            ],
+            'Dial Color': [
+              { name: 'Black', inStock: true, price: 159.99 },
+              { name: 'Blue', inStock: true, price: 159.99 },
+              { name: 'White', inStock: true, price: 164.99 }
+            ]
+          }
+        },
+        {
+          id: 6,
+          name: 'LUSTRAEDI Titan(POEDAGAR)',
+          tagline: 'Waterproof Steel Chronograph',
+          price: 129.99,
+          originalPrice: 229.99,
+          video: ['https://goods-vod.kwcdn.com/goods-video/ab715543d4436d153f06998ff4e3bd9c092087aags2CV.f30.mp4',
+          ],
+          images: [
+            'https://img.kwcdn.com/product/fancy/065a2d9f-299a-42e4-990d-8fab08664893.jpg',
+            'https://img.kwcdn.com/product/fancy/1cd45b49-4eac-4d48-b7ac-9d77b7e1da2b.jpg',
+            'https://img.kwcdn.com/product/fancy/74514f0f-5dc4-4df0-ad0e-b42d6c3395cf.jpg'
+          ],
+          description: 'Built for endurance and designed for style. The Titan is a robust, waterproof chronograph crafted from solid stainless steel, featuring a luminous calendar display for clarity in any condition.',
+          specs: { Material: 'Stainless Steel', 'Features': 'Chronograph, Luminous, Calendar', 'Water Resistance': 'Suitable for swimming', 'Movement': 'Quartz' },
+          variants: {
+            'Color': [
+              { name: 'Black', inStock: true, price: 129.99, images: ['https://img.kwcdn.com/product/fancy/065a2d9f-299a-42e4-990d-8fab08664893.jpg'] },
+              { name: 'Silver', inStock: true, price: 129.99, images: ['https://img.kwcdn.com/product/fancy/1cd45b49-4eac-4d48-b7ac-9d77b7e1da2b.jpg'] },
+              { name: 'Gold', inStock: false, price: 139.99, images: ['https://img.kwcdn.com/product/fancy/74514f0f-5dc4-4df0-ad0e-b42d6c3395cf.jpg'] }
+            ],
+            'Size': [
+              { name: '40mm', inStock: true, price: 129.99 },
+              { name: '42mm', inStock: true, price: 134.99 },
+              { name: '44mm', inStock: true, price: 139.99 }
+            ]
+          }
+        }
+      ];
+
+      // --- STATE MANAGEMENT ---
+      let cart = JSON.parse(localStorage.getItem('lustraediCart')) || [];
+      
+      // --- DOM ELEMENTS ---
+      const productGrid = document.getElementById('product-grid');
+      const mainPages = {
+        home: document.getElementById('home-page'),
+        product: document.getElementById('product-detail-page'),
+        checkout: document.getElementById('checkout-page')
+      };
+      const cartOverlay = document.getElementById('cart-overlay');
+      const cartIcon = document.getElementById('cart-icon');
+      const closeCartBtn = document.getElementById('close-cart-btn');
+      const checkoutButton = document.getElementById('checkout-button');
+      const emailPopup = document.getElementById('email-popup');
+      const closePopupBtn = document.getElementById('close-popup-btn');
+
+      // --- PAGE ROUTING ---
+      function showPage(pageName, productId = null) {
+        Object.values(mainPages).forEach(page => page.classList.add('hidden'));
+        mainPages[pageName].classList.remove('hidden');
+        window.scrollTo(0, 0);
+
+        if (pageName === 'product' && productId) {
+          renderProductDetail(productId);
+        } else if (pageName === 'checkout') {
+          renderCheckoutPage();
+        }
+      }
+
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          showPage(link.dataset.page);
+        })
+      });
+
+      // --- RENDERING FUNCTIONS ---
+      function renderProducts() {
+        if(!productGrid) return;
+        productGrid.innerHTML = products.map(product => `
+          <div class="bg-gray-900 border border-gray-800 rounded-lg overflow-hidden group">
+            <div class="relative overflow-hidden">
+                <img src="${product.images[0]}" alt="${product.name}" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300">
+                <div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <button class="view-product-btn cta-button bg-brand-gold text-black font-bold py-3 px-6 rounded-lg" data-id="${product.id}">View Details</button>
                 </div>
             </div>
-        </section>
-
-        <!-- Features Section -->
-        <section class="py-20 px-6 bg-black">
-            <div class="container mx-auto">
-                <div class="text-center mb-12">
-                    <h3 class="text-3xl md:text-4xl font-bold">Why <span class="brand-gold">LUSTRAEDI</span> is a Game-Changer</h3>
-                    <p class="text-gray-400 mt-2">All the features you need, perfectly integrated.</p>
-                </div>
-                <div class="grid md:grid-cols-3 gap-8 text-center">
-                    <!-- Feature 1 -->
-                    <div class="bg-gray-900 p-8 rounded-xl border border-gray-800">
-                        <img src="images/counter_2_67dp_FFFF55_FILL0_wght400_GRAD0_opsz48.png" alt="2-in-1 Design Icon" class="mx-auto mb-4 rounded-full">
-                        <h4 class="text-xl font-bold mb-2">Ingenious 2-in-1 Design</h4>
-                        <p class="text-gray-400">Never lose your earbuds again. They charge right inside your watch. Pop them out anytime for instant audio.</p>
-                    </div>
-                    <!-- Feature 2 -->
-                    <div class="bg-gray-900 p-8 rounded-xl border border-gray-800">
-                        <img src="images/health_and_safety_67dp_FFFF55_FILL0_wght400_GRAD0_opsz48.png" alt="Health Tracking Icon" class="mx-auto mb-4 rounded-full">
-                        <h4 class="text-xl font-bold mb-2">Advanced Health Tracking</h4>
-                        <p class="text-gray-400">Monitor your Heart Rate, Blood Oxygen, Sleep Patterns, and daily steps. Your personal health assistant on your wrist.</p>
-                    </div>
-                    <!-- Feature 3 -->
-                    <div class="bg-gray-900 p-8 rounded-xl border border-gray-800">
-                        <img src="images/graphic_eq_67dp_FFFF55_FILL0_wght400_GRAD0_opsz48.png" alt="Hi-Fi Audio Icon" class="mx-auto mb-4 rounded-full">
-                        <h4 class="text-xl font-bold mb-2">Crystal Clear Hi-Fi Audio</h4>
-                        <p class="text-gray-400">Enjoy deep bass and crisp highs with our custom-tuned earbuds. Perfect for calls and your favorite Nigerian music.</p>
-                    </div>
-                </div>
+            <div class="p-6 text-center">
+              <h3 class="text-xl font-bold">${product.name}</h3>
+              <p class="text-gray-400 mb-3">${product.tagline}</p>
+              <div class="flex justify-center items-baseline space-x-2">
+                <p class="text-2xl font-bold brand-gold">$${product.price.toFixed(2)}</p>
+                <p class="text-lg text-gray-500 line-through">$${product.originalPrice.toFixed(2)}</p>
+              </div>
+              <button class="add-to-cart-btn mt-4 w-full bg-gray-800 text-brand-gold font-bold py-2 px-4 rounded-md hover:bg-brand-gold hover:text-black transition-colors" data-id="${product.id}">Add to Cart</button>
             </div>
-        </section>
+          </div>
+        `).join('');
+        addGridEventListeners();
+      }
+
+      function renderProductDetail(productId) {
+        const product = products.find(p => p.id === productId);
+        if (!product) {
+            showPage('home');
+            return;
+        }
+
+        const specsHtml = Object.entries(product.specs).map(([key, value]) => `
+            <tr class="border-b border-gray-800">
+                <td class="py-2 pr-4 font-medium text-gray-300">${key}</td>
+                <td class="py-2 text-gray-400">${value}</td>
+            </tr>
+        `).join('');
+
+        const imageThumbnails = product.images.map((img, index) => `
+            <div class="cursor-pointer rounded-md border-2 ${index === 0 ? 'border-brand-gold' : 'border-transparent'} hover:border-brand-gold p-0 overflow-hidden" data-type="image" data-src="${img}">
+                <img src="${img}" alt="Thumbnail ${index+1}" class="w-full h-full object-cover">
+            </div>`).join('');
         
-        <!-- Product Showcase -->
-        <section class="py-20 px-6">
-            <div class="container mx-auto grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                     <img src="images/Screenshot_2025-08-21_185840-removebg-preview.png" 
-                         alt="Close up of the LUSTRAEDI watch with elegant leather strap" 
-                         class="rounded-2xl shadow-lg"
-                         onerror="this.onerror=null;this.src='https://placehold.co/600x500/0a0a0a/FFFFFF?text=Image+Not+Available';">
+        const videoThumbnail = product.video ? `
+            <div class="cursor-pointer rounded-md border-2 border-transparent hover:border-brand-gold p-0 overflow-hidden relative group" data-type="video" data-src="${product.video}">
+                <img src="${product.images[0]}" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-white group-hover:text-brand-gold" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path></svg>
                 </div>
-                <div>
-                    <h3 class="text-3xl md:text-4xl font-bold mb-4">Crafted for Excellence. <br>Designed for <span class="brand-gold">You</span>.</h3>
-                    <p class="text-gray-300 mb-6">The LUSTRAEDI watch is built with premium materials, featuring a vibrant HD touchscreen that's clear even under the Nigerian sun. It's tough, stylish, and ready for anything.</p>
-                    <ul class="space-y-3 text-gray-300">
-                        <li class="flex items-center"><span class="brand-gold mr-3">✔</span> Long-Lasting Battery Life (Up to 7 Days)</li>
-                        <li class="flex items-center"><span class="brand-gold mr-3">✔</span> IP67 Water & Dust Resistant</li>
-                        <li class="flex items-center"><span class="brand-gold mr-3">✔</span> Receive Calls & Notifications Instantly</li>
-                        <li class="flex items-center"><span class="brand-gold mr-3">✔</span> Compatible with both Android & iPhone</li>
-                    </ul>
-                </div>
+            </div>` : '';
+
+        // Generate variant selection HTML
+        let variantsHtml = '';
+        if (product.variants) {
+          variantsHtml = Object.entries(product.variants).map(([variantName, options]) => `
+            <div class="mb-6">
+              <h4 class="text-lg font-bold mb-3">${variantName}: <span id="selected-${variantName.toLowerCase().replace(/\s+/g, '-')}" class="text-brand-gold"></span></h4>
+              <div class="flex flex-wrap gap-2">
+                ${options.map(option => `
+                  <div class="variant-option ${option.inStock ? '' : 'out-of-stock'} ${option.name === options[0].name ? 'selected' : ''}" 
+                       data-variant="${variantName}" 
+                       data-value="${option.name}" 
+                       data-price="${option.price}"
+                       ${option.images ? `data-images='${JSON.stringify(option.images)}'` : ''}
+                       ${!option.inStock ? 'disabled' : ''}>
+                    ${option.name}${option.price !== product.price ? ` ($${option.price})` : ''}
+                  </div>
+                `).join('')}
+              </div>
             </div>
-        </section>
+          `).join('');
+        }
 
-        <!-- Product Gallery Section -->
-        <section class="py-20 px-6 bg-black">
-            <div class="container mx-auto">
-                <div class="text-center mb-12">
-                    <h3 class="text-3xl md:text-4xl font-bold">See It From Every Angle</h3>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <img src="images/Screenshot_2025-08-21_222133-removebg-preview.png" alt="LUSTRAEDI watch with earbuds out of the case" class="rounded-xl shadow-lg w-full h-auto object-cover">
-                    <img src="images/Screenshot_2025-08-21_193354-removebg-preview.png" alt="LUSTRAEDI watch showing different watch faces and styles" class="rounded-xl shadow-lg w-full h-auto object-cover">
-                </div>
+        const recommendedProducts = products.filter(p => p.id !== productId).sort(() => 0.5 - Math.random()).slice(0, 3);
+        const recommendationsHtml = recommendedProducts.map(rec => `
+            <div class="border border-gray-800 rounded-lg p-4 text-center">
+                <img src="${rec.images[0]}" alt="${rec.name}" class="w-full h-48 object-cover rounded-md mb-4">
+                <h4 class="font-bold">${rec.name}</h4>
+                <p class="brand-gold">$${rec.price.toFixed(2)}</p>
+                <button class="view-product-btn text-sm mt-2 text-gray-400 hover:text-brand-gold" data-id="${rec.id}">View Details &rarr;</button>
             </div>
-        </section>
+        `).join('');
 
-        <!-- Testimonials Section -->
-        <section class="py-20 px-6">
-            <div class="container mx-auto text-center">
-                <h3 class="text-3xl md:text-4xl font-bold mb-12">Hear From Our Happy Customers</h3>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <!-- Testimonial 1 -->
-                    <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
-                        <p class="text-gray-300 mb-4">"This watch is pure class. I use it for my workouts and business calls. The earbuds are surprisingly good. Delivery to Lagos was fast too!"</p>
-                        <div class="flex items-center">
-                            <img src="images/11.jpg" alt="Tunde from Lekki" class="w-12 h-12 rounded-full mr-4 border-2 border-brand-gold">
-                            <p class="font-bold">- Tunde, Lekki</p>
-                        </div>
-                    </div>
-                    <!-- Testimonial 2 -->
-                    <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
-                        <p class="text-gray-300 mb-4">"I was skeptical at first, but wow! The convenience is unmatched. No more carrying a separate case for my buds. And I paid on delivery, which was great."</p>
-                        <div class="flex items-center">
-                            <img src="images/13.jpg" alt="Chioma from Abuja" class="w-12 h-12 rounded-full mr-4 border-2 border-brand-gold">
-                             <p class="font-bold">- Chioma, Abuja</p>
-                        </div>
-                    </div>
-                    <!-- Testimonial 3 -->
-                    <div class="bg-gray-900 p-6 rounded-xl border border-gray-800 text-left">
-                        <p class="text-gray-300 mb-4">"Finally, a tech gadget that understands my lifestyle. Looks expensive, feels solid. My friends are all asking where I got it from. 10/10!"</p>
-                        <div class="flex items-center">
-                            <img src="images/12.jpg" alt="Bayo from Ibadan" class="w-12 h-12 rounded-full mr-4 border-2 border-brand-gold">
-                            <p class="font-bold">- Bayo, Ibadan</p>
-                        </div>
-                    </div>
+        mainPages.product.innerHTML = `
+          <div class="container mx-auto py-12 px-4">
+            <nav class="mb-6 text-sm text-gray-400">
+              <a href="#" class="hover:text-brand-gold" data-page="home-page">Home</a> &gt; <a href="#products" class="hover:text-brand-gold">Collection</a> &gt; <span class="text-brand-gold">${product.name}</span>
+            </nav>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+              <div>
+                <div class="mb-4 rounded-lg overflow-hidden bg-gray-800 aspect-square flex items-center justify-center">
+                  <img id="main-product-image" src="${product.images[0]}" alt="${product.name}" class="w-full h-full object-contain">
+                  <video id="main-product-video" class="w-full h-full object-contain hidden" controls></video>
                 </div>
-            </div>
-        </section>
-
-        <!-- Order Form Section -->
-        <section id="order-form" class="py-20 px-6 hero-gradient">
-            <div class="container mx-auto max-w-3xl">
-                <div class="bg-black border border-brand-gold rounded-2xl p-8 md:p-12 shadow-2xl">
-                    <div class="text-center mb-8">
-                        <h3 class="text-3xl md:text-4xl font-extrabold brand-gold">Get Your LUSTRAEDI Today!</h3>
-                        <p class="text-gray-300 mt-2">Limited Stock Available. Don't Miss Out!</p>
-                        <p class="text-4xl font-bold my-4">PRICE: <span class="line-through text-gray-500 text-3xl">₦95,000</span> ₦75,000</p>
-                         <div class="bg-red-500 text-white font-bold text-lg p-2 rounded-md">
-                            🔥 20% DISCOUNT - ENDS TODAY! 🔥
-                        </div>
-                    </div>
-
-                    <!-- Formspree action removed from here, will be handled by JS -->
-                    <form id="paymentForm" class="space-y-6">
-                        <!-- Personal Details -->
-                        <div>
-                            <label for="name" class="font-medium mb-2 block">Full Name</label>
-                            <input type="text" id="name" name="name" class="form-input" placeholder="e.g. Adekunle Gold" required>
-                        </div>
-                        <div>
-                            <label for="phone" class="font-medium mb-2 block">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" class="form-input" placeholder="e.g. 08012345678" required>
-                        </div>
-                        <div>
-                            <label for="email" class="font-medium mb-2 block">Email Address</label>
-                            <input type="email" id="email" name="email" class="form-input" placeholder="e.g. yourname@email.com" required>
-                        </div>
-                        <div>
-                            <label for="address" class="font-medium mb-2 block">Full Delivery Address</label>
-                            <textarea id="address" name="address" class="form-input" rows="3" placeholder="Please provide your full house number, street name, city, and state." required></textarea>
-                        </div>
-
-                        <!-- Payment Method -->
-                        <div>
-                            <h4 class="font-medium mb-3 text-lg">Select Payment Method</h4>
-                            <div class="space-y-3">
-                                <!-- Flutterwave Option -->
-                                <div id="pay-flutterwave" class="payment-option p-4 rounded-lg cursor-pointer flex items-center justify-between">
-                                    <div>
-                                        <h5 class="font-bold">Pay with Card / Bank Transfer</h5>
-                                        <p class="text-sm text-gray-400">Secure payment via Flutterwave.</p>
-                                    </div>
-                                    <img src="https://flutterwave.com/images/logo/full.svg" alt="Flutterwave" class="h-6">
-                                </div>
-                                <!-- Pay on Delivery Option -->
-                                <div id="pay-delivery" class="payment-option p-4 rounded-lg cursor-pointer flex items-center justify-between">
-                                    <div>
-                                        <h5 class="font-bold">Pay on Delivery</h5>
-                                        <p class="text-sm text-gray-400">Pay with cash or POS when your order arrives. (Available in Lagos, Abuja, PH only)</p>
-                                    </div>
-                                    <span class="text-2xl">🚚</span>
-                                </div>
-                            </div>
-                            <input type="hidden" id="paymentMethod" name="Payment Method" value="">
-                        </div>
-                        
-                        <!-- Status Messages -->
-                        <div id="form-status" class="text-center font-medium hidden"></div>
-
-                        <!-- CTA Button -->
-                        <div>
-                            <button type="submit" id="submit-button" class="cta-button bg-brand-gold text-black font-bold py-4 px-10 rounded-lg w-full text-lg">
-                                COMPLETE MY ORDER
-                            </button>
-                        </div>
-                    </form>
+                <div class="grid grid-cols-4 gap-2">
+                  ${imageThumbnails}
+                  ${videoThumbnail}
                 </div>
+              </div>
+              <div>
+                <h1 class="font-serif text-3xl md:text-4xl font-bold mb-2">${product.name}</h1>
+                <p class="text-xl text-gray-300 mb-4">${product.tagline}</p>
+                <div class="flex items-baseline space-x-3 mb-6">
+                  <p class="text-3xl font-bold brand-gold">$${product.price.toFixed(2)}</p>
+                  <p class="text-xl text-gray-500 line-through">$${product.originalPrice.toFixed(2)}</p>
+                </div>
+                <p class="text-gray-400 mb-8">${product.description}</p>
+                
+                ${variantsHtml}
+                
+                <div class="flex items-center space-x-4 mb-8">
+                  <div class="flex items-center border border-gray-700 rounded-md overflow-hidden">
+                    <button class="quantity-btn px-4 py-2 text-xl bg-gray-800 hover:bg-gray-700" data-action="decrease">-</button>
+                    <input type="number" id="product-quantity" class="w-16 text-center bg-black border-x border-gray-700 py-2" value="1" min="1">
+                    <button class="quantity-btn px-4 py-2 text-xl bg-gray-800 hover:bg-gray-700" data-action="increase">+</button>
+                  </div>
+                  <button id="add-to-cart-detail" class="flex-grow cta-button bg-brand-gold text-black font-bold py-3 px-6 rounded-lg" data-id="${product.id}">Add to Cart</button>
+                </div>
+                
+                <div class="border-t border-gray-800 pt-6">
+                  <h3 class="text-lg font-bold mb-4">Specifications</h3>
+                  <table class="w-full">
+                    <tbody>${specsHtml}</tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-        </section>
+            
+            <div class="border-t border-gray-800 pt-12">
+              <h2 class="font-serif text-2xl md:text-3xl font-bold mb-8 text-center">You May Also Like</h2>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                ${recommendationsHtml}
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Add event listeners for the product detail page
+        addDetailEventListeners(product);
+      }
+
+      function renderCheckoutPage() {
+        // Checkout page implementation would go here
+        mainPages.checkout.innerHTML = `
+          <div class="container mx-auto max-w-4xl">
+            <h1 class="font-serif text-3xl md:text-4xl font-bold mb-8 text-center">Checkout</h1>
+            <p class="text-center text-gray-400 mb-12">Checkout functionality would be implemented here with Flutterwave integration.</p>
+          </div>
+        `;
+      }
+
+      function updateCartUI() {
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartItemCount = document.getElementById('cart-item-count');
+        const cartSubtotal = document.getElementById('cart-subtotal');
         
-        <!-- Footer -->
-        <footer class="bg-black border-t border-gray-800 py-8 px-6">
-            <div class="container mx-auto text-center text-gray-400">
-                <!-- LOGO -->
-                <img src="images/logo.png.png" alt="LUSTRAEDI Logo" class="h-12 mx-auto mb-4">
-                <p>For support, contact us: <a href="mailto:dan@lustraedi.store" class="underline">dan@lustraedi.store</a> or Call <a href="tel:08085485244" class="underline">0808-548-5244</a></p>
-                <p class="text-sm mt-4">&copy; 2025 LUSTRAEDI. All Rights Reserved.</p>
-            </div>
-        </footer>
+        if (cartItemsContainer) {
+          if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p class="text-gray-400 text-center py-8">Your cart is empty.</p>';
+          } else {
+            cartItemsContainer.innerHTML = cart.map(item => {
+              const product = products.find(p => p.id === item.productId);
+              return `
+                <div class="flex items-center space-x-4 py-4 border-b border-gray-800">
+                  <img src="${product.images[0]}" alt="${product.name}" class="w-16 h-16 object-cover rounded-md">
+                  <div class="flex-grow">
+                    <h4 class="font-bold">${product.name}</h4>
+                    <p class="text-sm text-gray-400">${Object.entries(item.variants || {}).map(([key, value]) => `${key}: ${value}`).join(', ')}</p>
+                    <div class="flex items-center justify-between mt-1">
+                      <p class="brand-gold">$${(item.price * item.quantity).toFixed(2)}</p>
+                      <div class="flex items-center">
+                        <button class="cart-quantity-btn text-gray-400 hover:text-white" data-action="decrease" data-id="${item.id}">-</button>
+                        <span class="mx-2">${item.quantity}</span>
+                        <button class="cart-quantity-btn text-gray-400 hover:text-white" data-action="increase" data-id="${item.id}">+</button>
+                      </div>
+                    </div>
+                  </div>
+                  <button class="cart-item-remove text-gray-400 hover:text-red-500" data-id="${item.id}">&times;</button>
+                </div>
+              `;
+            }).join('');
+          }
+        }
+        
+        if (cartItemCount) {
+          cartItemCount.textContent = cart.reduce((total, item) => total + item.quantity, 0);
+        }
+        
+        if (cartSubtotal) {
+          const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+          cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+        }
+        
+        localStorage.setItem('lustraediCart', JSON.stringify(cart));
+      }
 
-    </main>
-
-    <!-- Flutterwave Inline Script -->
-    <script src="https://checkout.flutterwave.com/v3.js"></script>
-
-    <!-- Custom JavaScript for Form Handling -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const paymentForm = document.getElementById('paymentForm');
-            const flutterwaveOption = document.getElementById('pay-flutterwave');
-            const deliveryOption = document.getElementById('pay-delivery');
-            const paymentMethodInput = document.getElementById('paymentMethod');
-            const formStatus = document.getElementById('form-status');
-            const submitButton = document.getElementById('submit-button');
-
-            // Handle payment option selection
-            flutterwaveOption.addEventListener('click', () => selectPaymentMethod('flutterwave'));
-            deliveryOption.addEventListener('click', () => selectPaymentMethod('delivery'));
-
-            function selectPaymentMethod(method) {
-                paymentMethodInput.value = method;
-                flutterwaveOption.classList.toggle('selected', method === 'flutterwave');
-                deliveryOption.classList.toggle('selected', method === 'delivery');
-            }
-            
-            // Handle form submission
-            paymentForm.addEventListener('submit', function(e) {
-                e.preventDefault(); // Prevent default submission for all cases
-                
-                const formData = new FormData(paymentForm);
-                const paymentMethod = paymentMethodInput.value;
-
-                // Basic Validation
-                if (!formData.get('name') || !formData.get('phone') || !formData.get('email') || !formData.get('address')) {
-                    showStatus('Please fill in all the required fields.', 'error');
-                    return;
-                }
-                if (!paymentMethod) {
-                    showStatus('Please select a payment method.', 'error');
-                    return;
-                }
-                
-                if (paymentMethod === 'flutterwave') {
-                    makeFlutterwavePayment(formData.get('name'), formData.get('phone'), formData.get('email'));
-                } else if (paymentMethod === 'delivery') {
-                    handleFormspreeSubmit(formData);
-                }
-            });
-
-            async function handleFormspreeSubmit(formData) {
-                showStatus('Submitting your order...', 'loading');
-                submitButton.disabled = true;
-                
-                try {
-                    const response = await fetch("https://formspree.io/f/xjkevoak", {
-                        method: 'POST',
-                        body: formData,
-                        headers: { 'Accept': 'application/json' }
-                    });
-
-                    if (response.ok) {
-                        showStatus('Thank you! Your order has been received.', 'success');
-                        paymentForm.reset();
-                        selectPaymentMethod(''); // Clear selection
-                    } else {
-                        throw new Error('Network response was not ok.');
-                    }
-                } catch (error) {
-                    console.error('Formspree submission error:', error);
-                    showStatus('Oops! Something went wrong. Please try again.', 'error');
-                } finally {
-                    submitButton.disabled = false;
-                }
-            }
-
-            function makeFlutterwavePayment(name, phone, email) {
-                FlutterwaveCheckout({
-                    public_key: "FLWPUBK-4909a34fed388750f5380f3a91d3dd55-X",
-                    tx_ref: "LUSTRAEDI-" + Date.now(),
-                    amount: 75000,
-                    currency: "NGN",
-                    payment_options: "card, banktransfer, ussd",
-                    redirect_url: "https://your-thank-you-page.com",
-                    customer: { email, phone_number: phone, name },
-                    customizations: {
-                        title: "LUSTRAEDI",
-                        description: "Payment for 2-in-1 Smartwatch & Buds",
-                        logo: "images/logo.jpg", 
-                    },
-                    callback: function (data) {
-                        console.log(data);
-                        showStatus('Payment successful! Thank you for your order.', 'success');
-                        paymentForm.reset();
-                        selectPaymentMethod('');
-                    },
-                    onclose: function() {
-                        console.log("Payment modal closed.");
-                    }
-                });
-            }
-            
-            function showStatus(message, type) {
-                formStatus.textContent = message;
-                formStatus.className = 'text-center font-medium p-2 rounded-md'; // Reset classes
-                if (type === 'success') {
-                    formStatus.classList.add('text-green-400', 'bg-green-900/50');
-                } else if (type === 'error') {
-                    formStatus.classList.add('text-red-400', 'bg-red-900/50');
-                } else { // loading
-                    formStatus.classList.add('text-yellow-400', 'bg-yellow-900/50');
-                }
-            }
+      // --- EVENT LISTENERS ---
+      function addGridEventListeners() {
+        document.querySelectorAll('.view-product-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const productId = parseInt(btn.dataset.id);
+            showPage('product', productId);
+          });
         });
-    </script>
 
+        document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const productId = parseInt(btn.dataset.id);
+            addToCart(productId);
+          });
+        });
+      }
+
+      function addDetailEventListeners(product) {
+        // Thumbnail selection
+        document.querySelectorAll('[data-type]').forEach(thumb => {
+          thumb.addEventListener('click', () => {
+            const type = thumb.dataset.type;
+            const src = thumb.dataset.src;
+            
+            document.querySelectorAll('[data-type]').forEach(t => {
+              t.classList.remove('border-brand-gold');
+              t.classList.add('border-transparent');
+            });
+            thumb.classList.remove('border-transparent');
+            thumb.classList.add('border-brand-gold');
+            
+            if (type === 'image') {
+              document.getElementById('main-product-image').src = src;
+              document.getElementById('main-product-image').classList.remove('hidden');
+              document.getElementById('main-product-video').classList.add('hidden');
+            } else if (type === 'video') {
+              const videoEl = document.getElementById('main-product-video');
+              videoEl.src = src;
+              videoEl.classList.remove('hidden');
+              document.getElementById('main-product-image').classList.add('hidden');
+              videoEl.play();
+            }
+          });
+        });
+
+        // Quantity buttons
+        document.querySelectorAll('.quantity-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const input = document.getElementById('product-quantity');
+            let value = parseInt(input.value);
+            
+            if (btn.dataset.action === 'increase') {
+              input.value = value + 1;
+            } else if (btn.dataset.action === 'decrease' && value > 1) {
+              input.value = value - 1;
+            }
+          });
+        });
+
+        // Variant selection
+        document.querySelectorAll('.variant-option:not(.out-of-stock)').forEach(option => {
+          option.addEventListener('click', () => {
+            const variantType = option.dataset.variant;
+            const variantValue = option.dataset.value;
+            
+            // Deselect all options of this variant type
+            document.querySelectorAll(`.variant-option[data-variant="${variantType}"]`).forEach(opt => {
+              opt.classList.remove('selected');
+            });
+            
+            // Select the clicked option
+            option.classList.add('selected');
+            
+            // Update the selected variant display
+            document.getElementById(`selected-${variantType.toLowerCase().replace(/\s+/g, '-')}`).textContent = variantValue;
+            
+            // Update price if this variant has a different price
+            const price = parseFloat(option.dataset.price);
+            const currentPriceEl = document.querySelector('.text-3xl.font-bold.brand-gold');
+            if (price && currentPriceEl && price !== product.price) {
+              currentPriceEl.textContent = `$${price.toFixed(2)}`;
+            }
+            
+            // Update images if this variant has specific images
+            if (option.dataset.images) {
+              try {
+                const variantImages = JSON.parse(option.dataset.images);
+                if (variantImages && variantImages.length > 0) {
+                  // Update main image
+                  document.getElementById('main-product-image').src = variantImages[0];
+                  
+                  // Update thumbnails (simplified implementation)
+                  const thumbnails = document.querySelectorAll('[data-type="image"]');
+                  if (thumbnails.length >= variantImages.length) {
+                    variantImages.forEach((img, i) => {
+                      if (thumbnails[i]) {
+                        thumbnails[i].querySelector('img').src = img;
+                        thumbnails[i].dataset.src = img;
+                      }
+                    });
+                  }
+                }
+              } catch (e) {
+                console.error('Error parsing variant images:', e);
+              }
+            }
+          });
+        });
+
+        // Initialize selected variants
+        Object.entries(product.variants || {}).forEach(([variantName, options]) => {
+          const selectedOption = options[0];
+          document.getElementById(`selected-${variantName.toLowerCase().replace(/\s+/g, '-')}`).textContent = selectedOption.name;
+        });
+
+        // Add to cart button
+        document.getElementById('add-to-cart-detail').addEventListener('click', () => {
+          const quantity = parseInt(document.getElementById('product-quantity').value);
+          
+          // Get selected variants
+          const selectedVariants = {};
+          document.querySelectorAll('.variant-option.selected').forEach(option => {
+            const variantType = option.dataset.variant;
+            const variantValue = option.dataset.value;
+            selectedVariants[variantType] = variantValue;
+          });
+          
+          // Get price (check if a variant has a different price)
+          let finalPrice = product.price;
+          document.querySelectorAll('.variant-option.selected').forEach(option => {
+            const variantPrice = parseFloat(option.dataset.price);
+            if (variantPrice && variantPrice !== product.price) {
+              finalPrice = variantPrice;
+            }
+          });
+          
+          addToCart(product.id, quantity, selectedVariants, finalPrice);
+        });
+
+        // Recommended products
+        document.querySelectorAll('.view-product-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const productId = parseInt(btn.dataset.id);
+            showPage('product', productId);
+          });
+        });
+      }
+
+      function addCartEventListeners() {
+        cartIcon.addEventListener('click', () => {
+          cartOverlay.classList.add('open');
+        });
+
+        closeCartBtn.addEventListener('click', () => {
+          cartOverlay.classList.remove('open');
+        });
+
+        checkoutButton.addEventListener('click', () => {
+          if (cart.length === 0) return;
+          showPage('checkout');
+          cartOverlay.classList.remove('open');
+        });
+
+        // Event delegation for cart item actions
+        document.getElementById('cart-items').addEventListener('click', (e) => {
+          if (e.target.classList.contains('cart-item-remove')) {
+            const itemId = e.target.dataset.id;
+            removeFromCart(itemId);
+          } else if (e.target.classList.contains('cart-quantity-btn')) {
+            const itemId = e.target.dataset.id;
+            const action = e.target.dataset.action;
+            adjustCartQuantity(itemId, action);
+          }
+        });
+      }
+
+      // --- CART FUNCTIONS ---
+      function addToCart(productId, quantity = 1, variants = {}, price = null) {
+        const product = products.find(p => p.id === productId);
+        if (!product) return;
+        
+        const finalPrice = price || product.price;
+        
+        // Check if this exact product with these variants is already in cart
+        let existingItem = null;
+        if (Object.keys(variants).length > 0) {
+          existingItem = cart.find(item => {
+            if (item.productId !== productId) return false;
+            
+            // Check if all variants match
+            const itemVariantKeys = Object.keys(item.variants || {});
+            const newVariantKeys = Object.keys(variants);
+            
+            if (itemVariantKeys.length !== newVariantKeys.length) return false;
+            
+            return itemVariantKeys.every(key => 
+              item.variants[key] === variants[key]
+            );
+          });
+        } else {
+          existingItem = cart.find(item => item.productId === productId && Object.keys(item.variants || {}).length === 0);
+        }
+        
+        if (existingItem) {
+          existingItem.quantity += quantity;
+        } else {
+          // Generate a unique ID for this cart item
+          const itemId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+          
+          cart.push({
+            id: itemId,
+            productId,
+            name: product.name,
+            price: finalPrice,
+            quantity,
+            variants: Object.keys(variants).length > 0 ? variants : null,
+            image: product.images[0]
+          });
+        }
+        
+        updateCartUI();
+        
+        // Show confirmation
+        const confirmation = document.createElement('div');
+        confirmation.className = 'fixed bottom-4 right-4 bg-brand-gold text-black px-6 py-3 rounded-lg shadow-lg z-50';
+        confirmation.textContent = 'Added to cart!';
+        document.body.appendChild(confirmation);
+        
+        setTimeout(() => {
+          confirmation.remove();
+        }, 3000);
+      }
+
+      function removeFromCart(itemId) {
+        cart = cart.filter(item => item.id !== itemId);
+        updateCartUI();
+      }
+
+      function adjustCartQuantity(itemId, action) {
+        const item = cart.find(item => item.id === itemId);
+        if (!item) return;
+        
+        if (action === 'increase') {
+          item.quantity += 1;
+        } else if (action === 'decrease' && item.quantity > 1) {
+          item.quantity -= 1;
+        }
+        
+        updateCartUI();
+      }
+
+      // --- INITIALIZATION ---
+      function init() {
+        renderProducts();
+        updateCartUI();
+        addCartEventListeners();
+        
+        // Show email popup after a delay
+        setTimeout(() => {
+          if (!localStorage.getItem('emailPopupShown')) {
+            emailPopup.classList.remove('hidden');
+            localStorage.setItem('emailPopupShown', 'true');
+          }
+        }, 3000);
+        
+        closePopupBtn.addEventListener('click', () => {
+          emailPopup.classList.add('hidden');
+        });
+      }
+
+      init();
+    });
+  </script>
 </body>
 </html>
-
-

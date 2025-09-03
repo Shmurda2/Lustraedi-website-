@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Your Order | LUSTRAEDI</title>
+
+  <!-- Google Fonts + Tailwind -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #f1f1f1; }
+    .brand-gold { color: #FFBF00; }
+    .bg-brand-gold { background-color: #FFBF00; }
+    .form-input { background:#1a1a1a; border:1px solid #333; color:#f1f1f1; border-radius:8px; padding:12px; width:100%; }
+    .form-input:focus { outline:none; border-color:#FFBF00; }
+  </style>
+</head>
+<body class="antialiased text-center px-6 py-16">
+
+  <!-- Logo -->
+  <img src="images/logo.png.png" alt="LUSTRAEDI Logo" class="h-14 mx-auto mb-6">
+
+  <!-- Heading -->
+  <h1 class="text-4xl font-extrabold brand-gold mb-4">📦 Track Your Order</h1>
+  <p class="text-lg text-gray-300 max-w-2xl mx-auto mb-8">
+    Enter your order ID or email address below to check the status of your LUSTRAEDI order.
+  </p>
+
+  <!-- Tracking Form -->
+  <div class="bg-gray-900 border border-gray-700 rounded-xl p-6 max-w-lg mx-auto">
+    <form id="trackForm" class="space-y-4">
+      <input type="text" id="orderId" name="orderId" class="form-input" placeholder="Enter Order ID or Email" required>
+      <button type="submit" class="bg-brand-gold text-black font-bold py-3 px-8 rounded-lg w-full shadow-lg hover:scale-105 transition-transform">
+        🔎 Track Order
+      </button>
+    </form>
+    <div id="trackResult" class="mt-6 text-gray-300 text-sm hidden"></div>
+  </div>
+
+  <!-- Guarantee -->
+  <div class="mt-10 text-gray-400 text-sm">
+    <p>💳 Secure Checkout | 🚚 Fast Delivery | ✅ 30-Day Money-Back Guarantee</p>
+  </div>
+
+  <!-- CTA Buttons -->
+  <div class="mt-10 flex justify-center gap-4 flex-wrap">
+    <a href="index.html" class="bg-brand-gold text-black font-bold py-3 px-8 rounded-lg shadow-lg hover:scale-105 transition-transform">
+      Back to Home
+    </a>
+    <a href="mailto:support@lustraedi.com" class="bg-gray-800 border border-gray-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:scale-105 transition-transform">
+      Contact Support
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-16 text-gray-500 text-sm">
+    &copy; 2025 LUSTRAEDI. All Rights Reserved.
+  </footer>
+
+  <!-- Simple Script for Demo -->
+  <script>
+    document.getElementById("trackForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const orderId = document.getElementById("orderId").value.trim();
+      const trackResult = document.getElementById("trackResult");
+
+      // Mock tracking logic (replace with backend API later)
+      if (orderId.length > 3) {
+        trackResult.textContent = "✅ Order " + orderId + " is currently being processed. Tracking info will be sent to your email soon.";
+        trackResult.classList.remove("hidden");
+      } else {
+        trackResult.textContent = "⚠️ Please enter a valid Order ID or Email.";
+        trackResult.classList.remove("hidden");
+      }
+    });
+  </script>
+
+</body>
+</html>
